@@ -98,21 +98,7 @@ The module automatically pushes info about user into `useState('auth')`.
 
 ```vue
 <script setup lang="ts">
-interface User {
-  id: number
-  name: string
-  email: string
-  email_verified_at?: any
-  created_at?: any
-  updated_at?: any
-}
-
-interface Auth {
-  user: User | null
-  loggedIn: boolean
-}
-
-const { user, loggedIn } = unref(useState<Auth>('auth'))
+const { user, loggedIn } = useState('auth').value
 </script>
 
 <template>
