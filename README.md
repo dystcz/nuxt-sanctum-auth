@@ -24,7 +24,7 @@ export default defineNuxtConfig({
 })
 ```
 
-You can also define options as below:
+You can also define options as below (defaults in example):
 
 ```js
 export default defineNuxtConfig({
@@ -55,7 +55,7 @@ export default defineNuxtConfig({
 
 ### Login
 
-Package provides you with `$sanctumAuth` plugin, which container `login` and `logout` methods.
+Package provides you with `$sanctumAuth` plugin, which contains `login` and `logout` methods.
 
 After login the module automatically redirects you to defined `home` route from config.
 
@@ -130,4 +130,4 @@ const { data: posts } = await useAsyncData(() => $apiFetch(`posts`))
 ## Development
 
 - Run `npm run dev:prepare` to generate type stubs.
-- Use `npm run dev` to start [playground](./playground) in development mode.
+- Use `npm run dev` to start playground in development mode.
