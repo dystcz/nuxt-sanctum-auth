@@ -1,7 +1,7 @@
 # Nuxt Sanctum Auth
 
 This is a simple package for interating Laravel Sanctum auth with Nuxt3.
-This package is in developement and for now works only in SPA mode (no ssr yet).
+This package is in developement and for now works **only in SPA mode** (**no SSR yet**).
 
 ## Installation
 
@@ -11,10 +11,11 @@ yarn add nuxt-sanctum-auth
 npm -i nuxt-sancum-auth
 ```
 
-Import the module into the `nuxt.config.[js,ts]`
+Import the module into the `nuxt.config.[js,ts]` and disable `ssr`.
 
 ```js
 export default defineNuxtConfig({
+  ssr: false,
   //...
   modules: [
     //...
@@ -23,10 +24,11 @@ export default defineNuxtConfig({
 })
 ```
 
-And define options (defaults in example).
+You can also define options as below:
 
 ```js
 export default defineNuxtConfig({
+  ssr: false,
   //...
   modules: [
     //...
@@ -47,6 +49,82 @@ export default defineNuxtConfig({
     }
   }
 })
+```
+
+## Usage
+
+### Login
+
+Package provides you with `$sanctumAuth` plugin, which container `login` and `logout` methods.
+
+After login the module automatically redirects you to defined `home` route from config.
+
+```vue
+<script setup lang="ts">
+const { $sanctumAuth } = useNuxtApp()
+const errors = ref([])
+
+const login = async () => {
+  try {
+    await $sanctumAuth.login({
+      email: 'email@example.com',
+      password: 'supersecretpassword'
+    })
+  } catch (e) {
+    // your error handling
+    errors.value = e.errors
+  }
+}
+</script>
+```
+
+### Logout
+
+After logout the module automatically redirects you to defined `logout` route from config.
+
+```vue
+<script setup lang="ts">
+const { $sanctumAuth } = useNuxtApp()
+
+const logout = async () => {
+  await $sanctumAuth.logout()
+}
+</script>
+```
+
+### Middleware
+
+Package automatically provides two middlewares for you to use: `auth` and `guest`.
+
+#### Pages available only when not logged in
+
+```vue
+<script setup lang="ts">
+definePageMeta({
+  middleware: 'guest'
+})
+</script>
+```
+
+#### Pages available only when logged in
+
+```vue
+<script setup lang="ts">
+definePageMeta({
+  middleware: 'auth'
+})
+</script>
+```
+
+### Data fetching
+
+In guarded pages, you will have to use special fetching method inside `useAsyncData`. This methods is responsible for carrying the XSRF token.
+
+```vue
+<script setup lang="ts">
+const { $apiFetch } = useNuxtApp()
+const { data: posts } = await useAsyncData(() => $apiFetch(`posts`))
+</script>
 ```
 
 ## Development
