@@ -1,5 +1,7 @@
 # Nuxt Sanctum Auth
 
+[![npm version](https://badge.fury.io/js/nuxt-sanctum-auth.svg)](https://badge.fury.io/js/nuxt-sanctum-auth)
+
 This is a simple package for integrating Laravel Sanctum auth with Nuxt3.
 This package is in developement and for now works **only in SPA mode** (**no SSR yet**).
 
