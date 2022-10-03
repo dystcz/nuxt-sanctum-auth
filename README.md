@@ -92,6 +92,41 @@ const logout = async () => {
 </script>
 ```
 
+### Accessing user
+
+The module automatically pushes info about user into `useState('auth')`.
+
+```vue
+<script setup lang="ts">
+interface User {
+  id: number
+  name: string
+  email: string
+  email_verified_at?: any
+  created_at?: any
+  updated_at?: any
+}
+
+interface Auth {
+  user: User | null
+  loggedIn: boolean
+}
+
+const { user, loggedIn } = unref(useState<Auth>('auth'))
+</script>
+
+<template>
+  <div>
+    Is user logged in?
+    <sapn>{{ loggedIn ? 'yes' : 'no' }}</sapn>
+  </div>
+  <div v-if="loggedIn">
+    What is users name?
+    <sapn>{{ user?.name }}</sapn>
+  </div>
+</template>
+```
+
 ### Middleware
 
 Package automatically provides two middlewares for you to use: `auth` and `guest`.
