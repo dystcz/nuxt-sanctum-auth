@@ -1,6 +1,6 @@
 {
-  "name": "nuxt-sanctum-module",
-  "version": "1.0.0",
+  "name": "nuxt-sanctum-auth",
+  "version": "0.0.1",
   "license": "MIT",
   "type": "module",
   "exports": {
@@ -31,5 +31,23 @@
     "eslint": "latest",
     "nuxt": "^3.0.0-rc.11",
     "prettier": "^2.7.1"
-  }
+  },
+  "description": "This is a simple package for interating Laravel Sanctum auth with Nuxt3. This package is in developement and for now works only in SPA mode (no ssr yet).",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dystcz/nuxt-sanctum-auth.git"
+  },
+  "keywords": [
+    "nuxt3",
+    "typescript",
+    "laravel",
+    "sanctum",
+    "auth",
+    "nuxt"
+  ],
+  "author": "Paul Cross <me@paulcross.cz> (https://paulcross.cz/)",
+  "bugs": {
+    "url": "https://github.com/dystcz/nuxt-sanctum-auth/issues"
+  },
+  "homepage": "https://github.com/dystcz/nuxt-sanctum-auth#readme"
 }
