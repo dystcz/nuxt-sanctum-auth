@@ -1,4 +1,7 @@
-# Nuxt Module
+# Nuxt Sanctum Auth
+
+This is a simple package for interating Laravel Sanctum auth with Nuxt3.
+This package is in developement and for now works only in SPA mode (no ssr yet).
 
 ## Development
 
