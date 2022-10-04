@@ -5,33 +5,35 @@ import {
   useState,
   useRouter,
   useRuntimeConfig,
-  navigateTo,
+  navigateTo
+  // @ts-ignore
 } from '#app'
 import { $fetch } from 'ohmyfetch'
 import Cookies from 'js-cookie'
+import { ModuleOptions } from '../module'
 
 export default defineNuxtPlugin((nuxtApp) => {
   const auth = useState('auth', () => {
     return {
       user: null,
-      loggedIn: false,
+      loggedIn: false
     }
   })
-  const config = useRuntimeConfig()
+  const config: ModuleOptions = useRuntimeConfig().nuxtSanctumAuth
   const router = useRouter()
 
   addRouteMiddleware('auth', async () => {
     await getUser()
 
     if (auth.value.loggedIn === false) {
-      return navigateTo(config.nuxtSanctumAuth.redirects.login)
+      return navigateTo(config.redirects.login)
     }
   })
   addRouteMiddleware('guest', async () => {
     await getUser()
 
     if (auth.value.loggedIn) {
-      return navigateTo(config.nuxtSanctumAuth.redirects.home)
+      return navigateTo(config.redirects.home)
     }
   })
 
@@ -40,12 +42,12 @@ export default defineNuxtPlugin((nuxtApp) => {
     credentials: 'include',
     headers: {
       Accept: 'application/json',
-      'X-XSRF-TOKEN': Cookies.get('XSRF-TOKEN'),
-    },
+      'X-XSRF-TOKEN': Cookies.get('XSRF-TOKEN')
+    }
   })
 
   const csrf = () => {
-    apiFetch(config.nuxtSanctumAuth.endpoints.csrf)
+    apiFetch(config.endpoints.csrf)
   }
 
   const getUser = async () => {
@@ -53,7 +55,7 @@ export default defineNuxtPlugin((nuxtApp) => {
       return auth.value.user
     }
     try {
-      const user = await apiFetch(config.nuxtSanctumAuth.endpoints.user)
+      const user = await apiFetch(config.endpoints.user)
       auth.value.loggedIn = true
       auth.value.user = user
       return user
@@ -65,13 +67,13 @@ export default defineNuxtPlugin((nuxtApp) => {
   const login = async (data) => {
     await csrf()
     try {
-      await apiFetch(config.nuxtSanctumAuth.endpoints.login, {
+      await apiFetch(config.endpoints.login, {
         method: 'POST',
-        body: JSON.stringify(data),
+        body: JSON.stringify(data)
       })
 
       await getUser()
-      router.push(config.nuxtSanctumAuth.redirects.home)
+      router.push(config.redirects.home)
     } catch (error) {
       throw error.data
     }
@@ -79,8 +81,8 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   const logout = async () => {
     try {
-      await apiFetch(config.nuxtSanctumAuth.endpoints.logout, {
-        method: 'POST',
+      await apiFetch(config.endpoints.logout, {
+        method: 'POST'
       })
     } catch (error) {
       console.log(error)
@@ -88,8 +90,8 @@ export default defineNuxtPlugin((nuxtApp) => {
       auth.value.loggedIn = false
       auth.value.user = null
 
-      window.location.href = config.nuxtSanctumAuth.redirects.logout
-      // router.push(config.nuxtSanctumAuth.redirects.logout)
+      window.location.href = config.redirects.logout
+      // router.push(config.redirects.logout)
     }
   }
 
@@ -99,8 +101,8 @@ export default defineNuxtPlugin((nuxtApp) => {
       sanctumAuth: {
         login,
         getUser,
-        logout,
-      },
-    },
+        logout
+      }
+    }
   }
 })
