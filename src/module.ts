@@ -3,22 +3,22 @@ import { fileURLToPath } from 'url'
 import { defineNuxtModule, addPlugin, createResolver } from '@nuxt/kit'
 
 interface Endpoints {
-  csrf?: string
-  login?: string
-  logout?: string
-  user?: string
+  csrf: string
+  login: string
+  logout: string
+  user: string
 }
 
 interface Redirects {
-  home?: string
-  login?: string
-  logout?: string
+  home: string
+  login: string
+  logout: string
 }
 
 export interface ModuleOptions {
-  baseUrl?: string
-  endpoints?: Endpoints
-  redirects?: Redirects
+  baseUrl: string
+  endpoints: Endpoints
+  redirects: Redirects
 }
 
 const defaults: ModuleOptions = {
@@ -27,19 +27,19 @@ const defaults: ModuleOptions = {
     csrf: '/sanctum/csrf-cookie',
     login: '/login',
     logout: '/logout',
-    user: '/user',
+    user: '/user'
   },
   redirects: {
     home: '/',
     login: '/login',
-    logout: '/login',
-  },
+    logout: '/login'
+  }
 }
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
     name: 'nuxt-sanctum-auth',
-    configKey: 'nuxtSanctumAuth',
+    configKey: 'nuxtSanctumAuth'
   },
   defaults,
   async setup(options, nuxt) {
@@ -49,5 +49,5 @@ export default defineNuxtModule<ModuleOptions>({
 
     const { resolve } = createResolver(import.meta.url)
     addPlugin(resolve('./runtime/plugin'))
-  },
+  }
 })
