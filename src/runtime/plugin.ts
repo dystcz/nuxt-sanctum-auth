@@ -10,7 +10,7 @@ import {
 } from '#app'
 import { $fetch } from 'ohmyfetch'
 import Cookies from 'js-cookie'
-import { ModuleOptions } from '../module'
+import { ModuleOptions } from '../types'
 
 export default defineNuxtPlugin((nuxtApp) => {
   const auth = useState('auth', () => {
@@ -56,9 +56,11 @@ export default defineNuxtPlugin((nuxtApp) => {
     }
     try {
       const user = await apiFetch(config.endpoints.user)
-      auth.value.loggedIn = true
-      auth.value.user = user
-      return user
+      if (user) {
+        auth.value.loggedIn = true
+        auth.value.user = user
+        return user
+      }
     } catch (error) {
       // console.log(error)
     }
