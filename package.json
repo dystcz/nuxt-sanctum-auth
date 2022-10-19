@@ -30,7 +30,7 @@
     "@nuxt/schema": "^3.0.0-rc.11",
     "@nuxtjs/eslint-config-typescript": "latest",
     "eslint": "latest",
-    "nuxt": "^3.0.0-rc.11",
+    "nuxt": "^3.0.0-rc.12",
     "prettier": "^2.7.1"
   },
   "description": "This is a simple package for interating Laravel Sanctum auth with Nuxt3. This package is in developement and for now works only in SPA mode (no ssr yet).",
