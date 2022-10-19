@@ -2,8 +2,6 @@ import { defineNuxtConfig } from 'nuxt/config'
 import nuxtSanctumAuth from '../dist/module'
 
 export default defineNuxtConfig({
-  ssr: false,
-
   app: {
     head: {
       script: [
@@ -12,6 +10,11 @@ export default defineNuxtConfig({
         }
       ]
     }
+  },
+
+  routeRules: {
+    '/account/**': { ssr: false },
+    '/auth/**': { ssr: false }
   },
 
   modules: [nuxtSanctumAuth],
@@ -24,9 +27,9 @@ export default defineNuxtConfig({
       user: '/user'
     },
     redirects: {
-      home: '/',
-      login: '/login',
-      logout: '/login'
+      home: '/account',
+      login: '/auth/login',
+      logout: '/'
     }
   }
 })
