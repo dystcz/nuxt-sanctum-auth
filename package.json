@@ -1,6 +1,6 @@
 {
   "name": "nuxt-sanctum-auth",
-  "version": "0.0.12",
+  "version": "0.1.0",
   "license": "MIT",
   "type": "module",
   "exports": {
@@ -50,8 +50,5 @@
   "bugs": {
     "url": "https://github.com/dystcz/nuxt-sanctum-auth/issues"
   },
-  "homepage": "https://github.com/dystcz/nuxt-sanctum-auth#readme",
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
-  }
+  "homepage": "https://github.com/dystcz/nuxt-sanctum-auth#readme"
 }
