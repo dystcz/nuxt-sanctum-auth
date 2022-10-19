@@ -115,7 +115,7 @@ const { user, loggedIn } = useState('auth').value
   </div>
   <div v-if="loggedIn">
     What is users name?
-    <sapn>{{ user?.name }}</sapn>
+    <sapn>{{ user.name }}</sapn>
   </div>
 </template>
 ```
