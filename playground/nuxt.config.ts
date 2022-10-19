@@ -18,6 +18,7 @@ export default defineNuxtConfig({
   },
 
   modules: [nuxtSanctumAuth],
+
   nuxtSanctumAuth: {
     baseUrl: 'http://localhost:8000',
     endpoints: {
