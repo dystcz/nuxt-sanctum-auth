@@ -3,7 +3,7 @@
 [![npm version](https://badge.fury.io/js/nuxt-sanctum-auth.svg)](https://badge.fury.io/js/nuxt-sanctum-auth)
 
 This is a simple package for integrating Laravel Sanctum auth with Nuxt3.
-This package is in developement and for now works **only in SPA mode** (**no SSR yet**).
+This package is in developement and for now works only in **SPA** or **Hybrid** mode. No full SSR support, yet.
 
 ## Installation
 
@@ -14,14 +14,20 @@ npm -i nuxt-sancum-auth
 ```
 
 Import the module into the `nuxt.config.[js,ts]` and disable `ssr`.
+Or alternatively disable `ssr` via `routeRules`, only for pages where `auth` or `guest` middlewares are needed. Typically account section and login page.
 
 ```js
 export default defineNuxtConfig({
   ssr: false,
-  //...
+  // or
+  routeRules: {
+    '/account/**': { ssr: false },
+    '/auth/**': { ssr: false }
+  },
+
   modules: [
-    //...
     'nuxt-sanctum-auth'
+    // ...
   ]
 })
 ```
@@ -30,11 +36,10 @@ You can also define options as below (defaults in example):
 
 ```js
 export default defineNuxtConfig({
-  ssr: false,
-  //...
+  // ...
   modules: [
-    //...
     'nuxt-sanctum-auth'
+    // ...
   ],
   nuxtSanctumAuth: {
     baseUrl: 'http://localhost:8000',
@@ -45,9 +50,9 @@ export default defineNuxtConfig({
       user: '/user'
     },
     redirects: {
-      home: '/',
-      login: '/login',
-      logout: '/login'
+      home: '/account',
+      login: '/auth/login',
+      logout: '/'
     }
   }
 })
@@ -118,6 +123,7 @@ const { user, loggedIn } = useState('auth').value
 ### Middleware
 
 Package automatically provides two middlewares for you to use: `auth` and `guest`.
+If you are using `routeRules` make sure to set `ssr: false` for all pages that will be using those middlewares.
 
 #### Pages available only when not logged in
 
@@ -148,6 +154,28 @@ In guarded pages, you will have to use special fetching method inside `useAsyncD
 const { $apiFetch } = useNuxtApp()
 const { data: posts } = await useAsyncData(() => $apiFetch(`posts`))
 </script>
+```
+
+### Getting user info in pages/components without middleware
+
+You absolutely can use user information on all pages, even on those that are not guarded by `auth` midleware.
+Only downside is that you have to handle potential empty states your self. Typically on ssr pages, because user info is accessable only on client.
+
+```vue
+<script setup lang="ts">
+const { $sanctumAuth } = useNuxtApp()
+const auth = ref(useState('auth').value) // set initial data structure
+
+onMounted(async () => {
+  await $sanctumAuth.getUser() // fetch and set user data
+  auth.value = useState<Auth>('auth').value // get user data
+})
+</script>
+
+<template>
+  <NuxtLink to="/auth/login" v-if="!auth.loggedIn"> Login </NuxtLink>
+  <NuxtLink to="/account" v-else> My Account </NuxtLink>
+</template>
 ```
 
 ## Development
