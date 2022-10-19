@@ -50,5 +50,8 @@
   "bugs": {
     "url": "https://github.com/dystcz/nuxt-sanctum-auth/issues"
   },
-  "homepage": "https://github.com/dystcz/nuxt-sanctum-auth#readme"
+  "homepage": "https://github.com/dystcz/nuxt-sanctum-auth#readme",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  }
 }
