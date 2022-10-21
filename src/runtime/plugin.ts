@@ -89,13 +89,10 @@ export default defineNuxtPlugin((nuxtApp) => {
     } catch (error) {
       console.log(error)
     } finally {
-      Cookies.remove('XSRF-TOKEN')
-
       auth.value.loggedIn = false
       auth.value.user = null
 
-      window.location.href = config.redirects.logout
-      // router.push(config.redirects.logout)
+      location.reload()
     }
   }
 
@@ -103,6 +100,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     provide: {
       apiFetch,
       sanctumAuth: {
+        csrf,
         login,
         getUser,
         logout
