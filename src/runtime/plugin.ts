@@ -46,9 +46,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     }
   })
 
-  const csrf = () => {
-    apiFetch(config.endpoints.csrf)
-  }
+  const csrf = async () => await apiFetch(config.endpoints.csrf)
 
   const getUser = async () => {
     if (auth.value.loggedIn && auth.value.user) {
@@ -67,7 +65,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   }
 
   const login = async (data) => {
-    await csrf()
+    csrf()
     try {
       await apiFetch(config.endpoints.login, {
         method: 'POST',
