@@ -92,7 +92,7 @@ export default defineNuxtPlugin((nuxtApp) => {
       auth.value.loggedIn = false
       auth.value.user = null
 
-      location.reload()
+      window.location.replace(config.redirects.logout)
     }
   }
 
