@@ -99,8 +99,8 @@ export default defineNuxtPlugin((nuxtApp) => {
   return {
     provide: {
       apiFetch,
+      csrf,
       sanctumAuth: {
-        csrf,
         login,
         getUser,
         logout
