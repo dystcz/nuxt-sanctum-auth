@@ -29,6 +29,8 @@
     "@nuxt/module-builder": "latest",
     "@nuxt/schema": "^3.0.0-rc.11",
     "@nuxtjs/eslint-config-typescript": "latest",
+    "@nuxtjs/tailwindcss": "^6.0.1",
+    "@tailwindcss/forms": "^0.5.3",
     "eslint": "latest",
     "nuxt": "^3.0.0-rc.12",
     "prettier": "^2.7.1"

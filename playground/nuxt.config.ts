@@ -4,11 +4,7 @@ import nuxtSanctumAuth from '../dist/module'
 export default defineNuxtConfig({
   app: {
     head: {
-      script: [
-        {
-          src: 'https://cdn.tailwindcss.com?plugins=forms'
-        }
-      ]
+      title: 'nuxt-sanctum-auth'
     }
   },
 
@@ -17,7 +13,7 @@ export default defineNuxtConfig({
     '/auth/**': { ssr: false }
   },
 
-  modules: [nuxtSanctumAuth],
+  modules: [nuxtSanctumAuth, '@nuxtjs/tailwindcss'],
 
   nuxtSanctumAuth: {
     baseUrl: 'http://localhost:8000',
