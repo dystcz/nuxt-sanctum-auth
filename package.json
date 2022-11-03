@@ -23,7 +23,6 @@
   },
   "dependencies": {
     "@nuxt/kit": "^3.0.0-rc.11",
-    "js-cookie": "^3.0.1",
     "ohmyfetch": "^0.4.19"
   },
   "devDependencies": {
@@ -32,7 +31,7 @@
     "@nuxtjs/eslint-config-typescript": "latest",
     "@nuxtjs/tailwindcss": "^6.0.1",
     "@tailwindcss/forms": "^0.5.3",
-    "eslint": "latest",
+    "eslint": "^8.26.0",
     "nuxt": "^3.0.0-rc.12",
     "prettier": "^2.7.1"
   },

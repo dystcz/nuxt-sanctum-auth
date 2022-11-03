@@ -5,11 +5,11 @@ import {
   useState,
   useRouter,
   useRuntimeConfig,
-  navigateTo
+  navigateTo,
+  useCookie
   // @ts-ignore
 } from '#app'
 import { $fetch } from 'ohmyfetch'
-import Cookies from 'js-cookie'
 import { ModuleOptions } from '../types'
 
 export default defineNuxtPlugin((nuxtApp) => {
@@ -42,11 +42,19 @@ export default defineNuxtPlugin((nuxtApp) => {
     credentials: 'include',
     headers: {
       Accept: 'application/json',
-      'X-XSRF-TOKEN': Cookies.get('XSRF-TOKEN')
+      'X-XSRF-TOKEN': useCookie('XSRF-TOKEN').value
     }
   })
 
-  const csrf = async () => await apiFetch(config.endpoints.csrf)
+  const csrf = async () =>
+    await $fetch(config.endpoints.csrf, {
+      baseURL: config.baseUrl,
+      credentials: 'include',
+      method: 'GET',
+      headers: {
+        Accept: 'application/json'
+      }
+    })
 
   const getUser = async () => {
     if (auth.value.loggedIn && auth.value.user) {
@@ -65,13 +73,12 @@ export default defineNuxtPlugin((nuxtApp) => {
   }
 
   const login = async (data) => {
-    csrf()
+    await csrf()
     try {
       await apiFetch(config.endpoints.login, {
         method: 'POST',
         body: JSON.stringify(data)
       })
-
       await getUser()
       router.push(config.redirects.home)
     } catch (error) {
