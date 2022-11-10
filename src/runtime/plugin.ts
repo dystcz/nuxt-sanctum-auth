@@ -3,7 +3,7 @@ import {
   defineNuxtPlugin,
   addRouteMiddleware,
   useState,
-  useRouter,
+  // useRouter,
   useRuntimeConfig,
   navigateTo,
   useCookie
@@ -12,7 +12,7 @@ import {
 import { $fetch } from 'ohmyfetch'
 import { ModuleOptions } from '../types'
 
-export default defineNuxtPlugin((nuxtApp) => {
+export default defineNuxtPlugin(async (nuxtApp) => {
   const auth = useState('auth', () => {
     return {
       user: null,
@@ -20,7 +20,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     }
   })
   const config: ModuleOptions = useRuntimeConfig().nuxtSanctumAuth
-  const router = useRouter()
+  // const router = useRouter()
 
   addRouteMiddleware('auth', async () => {
     await getUser()
@@ -46,7 +46,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     }
   })
 
-  const csrf = async () =>
+  const csrf = async () => {
     await $fetch(config.endpoints.csrf, {
       baseURL: config.baseUrl,
       credentials: 'include',
@@ -55,11 +55,13 @@ export default defineNuxtPlugin((nuxtApp) => {
         Accept: 'application/json'
       }
     })
+  }
 
   const getUser = async () => {
     if (auth.value.loggedIn && auth.value.user) {
       return auth.value.user
     }
+
     try {
       const user = await apiFetch(config.endpoints.user)
       if (user) {
@@ -72,16 +74,22 @@ export default defineNuxtPlugin((nuxtApp) => {
     }
   }
 
-  const login = async (data) => {
+  const login = async (data: any) => {
     await csrf()
+
     try {
       await apiFetch(config.endpoints.login, {
         method: 'POST',
-        body: JSON.stringify(data)
+        body: JSON.stringify(data),
+        headers: {
+          Accept: 'application/json',
+          'X-XSRF-TOKEN': useCookie('XSRF-TOKEN').value
+        }
       })
-      await getUser()
-      router.push(config.redirects.home)
-    } catch (error) {
+
+      // await getUser()
+      window.location.replace(config.redirects.home)
+    } catch (error: any) {
       throw error.data
     }
   }

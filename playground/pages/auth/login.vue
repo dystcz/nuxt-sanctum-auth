@@ -13,12 +13,13 @@ const form = ref({
 const error = ref('')
 
 const { $sanctumAuth } = useNuxtApp()
+
 const login = async () => {
   try {
     await $sanctumAuth.login(form.value)
-  } catch (e) {
-    console.log(e.message)
-    error.value = e.message
+  } catch (e: any) {
+    console.log(e?.message)
+    error.value = e?.message
   }
 }
 </script>
@@ -47,10 +48,7 @@ const login = async () => {
         class="rounded border-gray-200"
       />
     </div>
-    <button
-      @click="login"
-      class="w-full block rounded bg-blue-500 uppercase text-white py-2"
-    >
+    <button class="w-full block rounded bg-blue-500 uppercase text-white py-2">
       login
     </button>
     <div v-if="error" class="text-sm text-red-500">

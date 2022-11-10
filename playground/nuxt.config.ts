@@ -13,6 +13,7 @@ export default defineNuxtConfig({
     '/auth/**': { ssr: false }
   },
 
+  //@ts-ignore
   modules: [nuxtSanctumAuth, '@nuxtjs/tailwindcss'],
 
   nuxtSanctumAuth: {
