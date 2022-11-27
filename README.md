@@ -43,7 +43,7 @@ export default defineNuxtConfig({
   ],
   nuxtSanctumAuth: {
     baseUrl: 'http://localhost:8000',
-    endpoits: {
+    endpoints: {
       csrf: '/sanctum/csrf-cookie',
       login: '/login',
       logout: '/logout',
