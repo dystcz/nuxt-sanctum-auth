@@ -1,15 +1,12 @@
-// @ts-ignore
 import {
   defineNuxtPlugin,
   addRouteMiddleware,
   useState,
-  // useRouter,
   useRuntimeConfig,
   navigateTo,
   useCookie
-  // @ts-ignore
 } from '#app'
-import { $fetch } from 'ohmyfetch'
+import { ofetch } from 'ofetch'
 import { ModuleOptions } from '../types'
 
 export default defineNuxtPlugin(async (nuxtApp) => {
@@ -37,7 +34,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
     }
   })
 
-  const apiFetch = $fetch.create({
+  const apiFetch = ofetch.create({
     baseURL: config.baseUrl,
     credentials: 'include',
     headers: {
@@ -47,7 +44,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
   })
 
   const csrf = async () => {
-    await $fetch(config.endpoints.csrf, {
+    await ofetch(config.endpoints.csrf, {
       baseURL: config.baseUrl,
       credentials: 'include',
       method: 'GET',
@@ -84,7 +81,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
         headers: {
           Accept: 'application/json',
           'X-XSRF-TOKEN': useCookie('XSRF-TOKEN').value
-        }
+        } as HeadersInit
       })
 
       // await getUser()
