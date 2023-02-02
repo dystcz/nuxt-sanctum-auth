@@ -10,7 +10,7 @@ This package is in developement and for now works only in **SPA** or **Hybrid** 
 ```bash
 yarn add nuxt-sanctum-auth
 # or
-npm i nuxt-sancum-auth
+npm i nuxt-sanctum-auth
 ```
 
 Import the module into the `nuxt.config.[js,ts]` and disable `ssr`.
