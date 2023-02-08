@@ -67,7 +67,7 @@ Package provides you with `$sanctumAuth` plugin, which contains `login` and `log
 After login the module automatically redirects you to defined `home` route from config.
 
 ```vue
-<script setup lang="ts">
+<script setup>
 const { $sanctumAuth } = useNuxtApp()
 const errors = ref([])
 
@@ -90,7 +90,7 @@ const login = async () => {
 After logout the module automatically redirects you to defined `logout` route from config.
 
 ```vue
-<script setup lang="ts">
+<script setup>
 const { $sanctumAuth } = useNuxtApp()
 
 const logout = async () => {
@@ -104,7 +104,7 @@ const logout = async () => {
 The module automatically pushes info about user into `useState('auth')`.
 
 ```vue
-<script setup lang="ts">
+<script setup>
 const { user, loggedIn } = useState('auth').value
 </script>
 
@@ -128,7 +128,7 @@ If you are using `routeRules` make sure to set `ssr: false` for all pages that w
 #### Pages available only when not logged in
 
 ```vue
-<script setup lang="ts">
+<script setup>
 definePageMeta({
   middleware: 'guest'
 })
@@ -138,7 +138,7 @@ definePageMeta({
 #### Pages available only when logged in
 
 ```vue
-<script setup lang="ts">
+<script setup>
 definePageMeta({
   middleware: 'auth'
 })
@@ -150,7 +150,7 @@ definePageMeta({
 In guarded pages, you will have to use special fetching method inside `useAsyncData`. This methods is responsible for carrying the XSRF token.
 
 ```vue
-<script setup lang="ts">
+<script setup>
 const { $apiFetch } = useNuxtApp()
 const { data: posts } = await useAsyncData(() => $apiFetch(`posts`))
 </script>
@@ -162,19 +162,23 @@ You absolutely can use user information on all pages, even on those that are not
 Only downside is that you have to handle potential empty states your self. Typically on ssr pages, because user info is accessable only on client.
 
 ```vue
-<script setup lang="ts">
+<script setup>
 const { $sanctumAuth } = useNuxtApp()
-const auth = ref(useState('auth').value) // set initial data structure
+const loading = ref(true)
+const auth = computed(() => useState('auth').value) // return auth state
 
 onMounted(async () => {
   await $sanctumAuth.getUser() // fetch and set user data
-  auth.value = useState<Auth>('auth').value // get user data
+  loading.value = false
 })
 </script>
 
 <template>
-  <NuxtLink to="/auth/login" v-if="!auth.loggedIn"> Login </NuxtLink>
-  <NuxtLink to="/account" v-else> My Account </NuxtLink>
+  <div v-if="loading">Loading...</div>
+  <div v-else>
+    <NuxtLink to="/auth/login" v-if="!auth.loggedIn"> Login </NuxtLink>
+    <NuxtLink to="/account" v-else> My Account </NuxtLink>
+  </div>
 </template>
 ```
 
