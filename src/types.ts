@@ -16,3 +16,8 @@ export interface ModuleOptions {
   endpoints: Endpoints
   redirects: Redirects
 }
+
+export interface Auth {
+  user: any | null
+  loggedIn: boolean
+}

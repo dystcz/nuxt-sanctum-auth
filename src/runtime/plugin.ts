@@ -7,10 +7,10 @@ import {
   useCookie
 } from '#app'
 import { ofetch } from 'ofetch'
-import { ModuleOptions } from '../types'
+import { ModuleOptions, Auth } from '../types'
 
 export default defineNuxtPlugin(async (nuxtApp) => {
-  const auth = useState('auth', () => {
+  const auth = useState<Auth>('auth', () => {
     return {
       user: null,
       loggedIn: false
