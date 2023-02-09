@@ -18,12 +18,15 @@ const logout = async () => {
 
 <template>
   <div
-    class="flex flex-col p-4 rounded shadow space-y-4 bg-white min-w-[400px] text-center max-w-xl"
+    class="flex flex-col p-4 rounded shadow space-y-4 bg-white min-w-[400px] max-w-xl"
   >
     <h1 class="text-xl font-bold">You are logged in</h1>
-    <code class="block p-4 rounded bg-gray-100 border border-gray-200 mb-2">{{
-      auth
-    }}</code>
+    <p class="mb-2">Page accessable only for authenticated users</p>
+    <code
+      class="block text-xs p-4 rounded bg-gray-100 border border-gray-200 mb-2"
+    >
+      <pre>{{ auth }}</pre>
+    </code>
 
     <nuxt-link class="text-blue-500 underline" to="/">
       Go to index page
