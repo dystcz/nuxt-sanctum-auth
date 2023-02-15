@@ -3,13 +3,12 @@ import {
   addRouteMiddleware,
   useState,
   useRuntimeConfig,
-  navigateTo,
   useCookie
 } from '#app'
 import { ofetch } from 'ofetch'
 import { ModuleOptions, Auth } from '../types'
 
-export default defineNuxtPlugin(async (nuxtApp) => {
+export default defineNuxtPlugin(async () => {
   const auth = useState<Auth>('auth', () => {
     return {
       user: null,
@@ -17,20 +16,19 @@ export default defineNuxtPlugin(async (nuxtApp) => {
     }
   })
   const config: ModuleOptions = useRuntimeConfig().nuxtSanctumAuth
-  // const router = useRouter()
 
   addRouteMiddleware('auth', async () => {
     await getUser()
 
     if (auth.value.loggedIn === false) {
-      return navigateTo(config.redirects.login)
+      return config.redirects.login
     }
   })
   addRouteMiddleware('guest', async () => {
     await getUser()
 
     if (auth.value.loggedIn) {
-      return navigateTo(config.redirects.home)
+      return config.redirects.home
     }
   })
 
