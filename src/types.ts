@@ -22,4 +22,4 @@ export interface Auth {
   loggedIn: boolean
 }
 
-export type Callback = (...args: any[]) => void
+export type Callback = (response: any) => void
