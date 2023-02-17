@@ -7,8 +7,8 @@ definePageMeta({
 })
 
 const form = ref({
-  email: 'dev@dy.st',
-  password: 'hesloheslo'
+  email: '',
+  password: ''
 })
 const error = ref('')
 
