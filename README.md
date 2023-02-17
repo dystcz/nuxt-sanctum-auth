@@ -64,19 +64,27 @@ export default defineNuxtConfig({
 
 Package provides you with `$sanctumAuth` plugin, which contains `login` and `logout` methods.
 
-After login the module automatically redirects you to defined `home` route from config.
+When you log in using the module, it automatically redirects you to the `home` route as defined in the configuration. However, you can also pass a callback function as the second parameter, which will receive the response data as an argument. This can be useful, for example, if you want to fetch additional user data before redirecting them to the application. Just keep in mind that you'll need to handle the redirection manually.
 
 ```vue
 <script setup>
 const { $sanctumAuth } = useNuxtApp()
+const router = userRouter()
 const errors = ref([])
 
-const login = async () => {
+async function login () => {
   try {
-    await $sanctumAuth.login({
-      email: 'email@example.com',
-      password: 'supersecretpassword'
-    })
+    await $sanctumAuth.login(
+      {
+        email: 'email@example.com',
+        password: 'supersecretpassword'
+      },
+      // optional callback function
+      (data) => {
+        console.log(data)
+        router.push('/account')
+      }
+    )
   } catch (e) {
     // your error handling
     errors.value = e.errors
@@ -87,14 +95,21 @@ const login = async () => {
 
 ### Logout
 
-After logout the module automatically redirects you to defined `logout` route from config.
+When you log out, the module will automatically redirect you to the `logout` route as defined in the configuration. However, you can also choose to pass a callback function to handle the redirect yourself. The callback function will receive the response data from the logout request as an argument. Please note that all session data will be deleted by the time the callback is executed.
 
 ```vue
 <script setup>
 const { $sanctumAuth } = useNuxtApp()
+const router = userRouter()
 
 const logout = async () => {
-  await $sanctumAuth.logout()
+  await $sanctumAuth.logout(
+    // optional callback function
+    (data) => {
+      console.log(data)
+      router.push('/account')
+    }
+  )
 }
 </script>
 ```
