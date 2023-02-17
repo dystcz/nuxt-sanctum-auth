@@ -1,22 +1,27 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { definePageMeta, useNuxtApp } from '#imports'
+import { definePageMeta, useNuxtApp, useRouter } from '#imports'
 
 definePageMeta({
   middleware: ['guest']
 })
 
 const form = ref({
-  email: '',
-  password: ''
+  email: 'dev@dy.st',
+  password: 'hesloheslo'
 })
 const error = ref('')
 
 const { $sanctumAuth } = useNuxtApp()
+const router = useRouter()
 
 const login = async () => {
   try {
-    await $sanctumAuth.login(form.value)
+    await $sanctumAuth.login(form.value, (data) => {
+      if (data.success) {
+        router.push('/account')
+      }
+    })
   } catch (e: any) {
     console.log(e?.message)
     error.value = e?.message
