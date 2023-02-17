@@ -73,7 +73,7 @@ export default defineNuxtPlugin(async () => {
     await csrf()
 
     try {
-      await apiFetch(config.endpoints.login, {
+      const response = await apiFetch(config.endpoints.login, {
         method: 'POST',
         body: JSON.stringify(data),
         headers: {
@@ -83,7 +83,7 @@ export default defineNuxtPlugin(async () => {
       })
 
       if (callback !== undefined) {
-        callback()
+        callback(response)
         return
       }
       window.location.replace(config.redirects.home)
@@ -94,21 +94,20 @@ export default defineNuxtPlugin(async () => {
 
   const logout = async (callback?: Callback | undefined) => {
     try {
-      await apiFetch(config.endpoints.logout, {
+      const response = await apiFetch(config.endpoints.logout, {
         method: 'POST'
       })
+      if (callback !== undefined) {
+        callback(response)
+        return
+      }
+
+      window.location.replace(config.redirects.logout)
     } catch (error) {
       console.log(error)
     } finally {
       auth.value.loggedIn = false
       auth.value.user = null
-
-      if (callback !== undefined) {
-        callback()
-        return
-      }
-
-      window.location.replace(config.redirects.logout)
     }
   }
 
