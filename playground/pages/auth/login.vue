@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { definePageMeta, useNuxtApp, useRouter } from '#imports'
+import { definePageMeta, useNuxtApp } from '#imports'
 
 definePageMeta({
   middleware: ['guest']
