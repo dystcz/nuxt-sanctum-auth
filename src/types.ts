@@ -21,3 +21,5 @@ export interface Auth {
   user: any | null
   loggedIn: boolean
 }
+
+export type Callback = (...args: any[]) => void
