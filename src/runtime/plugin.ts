@@ -69,7 +69,7 @@ export default defineNuxtPlugin(async () => {
     }
   }
 
-  const login = async (data: any, callback: Callback | undefined) => {
+  const login = async (data: any, callback?: Callback | undefined) => {
     await csrf()
 
     try {
@@ -92,7 +92,7 @@ export default defineNuxtPlugin(async () => {
     }
   }
 
-  const logout = async (callback: Callback | undefined) => {
+  const logout = async (callback?: Callback | undefined) => {
     try {
       await apiFetch(config.endpoints.logout, {
         method: 'POST'
