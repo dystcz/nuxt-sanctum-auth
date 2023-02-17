@@ -13,15 +13,10 @@ const form = ref({
 const error = ref('')
 
 const { $sanctumAuth } = useNuxtApp()
-const router = useRouter()
 
 const login = async () => {
   try {
-    await $sanctumAuth.login(form.value, (data) => {
-      if (data.success) {
-        router.push('/account')
-      }
-    })
+    await $sanctumAuth.login(form.value)
   } catch (e: any) {
     console.log(e?.message)
     error.value = e?.message
