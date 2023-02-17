@@ -6,7 +6,7 @@ import {
   useCookie
 } from '#app'
 import { ofetch } from 'ofetch'
-import { ModuleOptions, Auth } from '../types'
+import { ModuleOptions, Auth, Callback } from '../types'
 
 export default defineNuxtPlugin(async () => {
   const auth = useState<Auth>('auth', () => {
@@ -69,7 +69,7 @@ export default defineNuxtPlugin(async () => {
     }
   }
 
-  const login = async (data: any) => {
+  const login = async (data: any, callback: Callback | undefined) => {
     await csrf()
 
     try {
@@ -82,14 +82,17 @@ export default defineNuxtPlugin(async () => {
         } as HeadersInit
       })
 
-      // await getUser()
+      if (callback !== undefined) {
+        callback()
+        return
+      }
       window.location.replace(config.redirects.home)
     } catch (error: any) {
       throw error.data
     }
   }
 
-  const logout = async () => {
+  const logout = async (callback: Callback | undefined) => {
     try {
       await apiFetch(config.endpoints.logout, {
         method: 'POST'
@@ -99,6 +102,11 @@ export default defineNuxtPlugin(async () => {
     } finally {
       auth.value.loggedIn = false
       auth.value.user = null
+
+      if (callback !== undefined) {
+        callback()
+        return
+      }
 
       window.location.replace(config.redirects.logout)
     }
