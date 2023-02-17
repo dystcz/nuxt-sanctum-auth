@@ -1,6 +1,6 @@
 {
   "name": "nuxt-sanctum-auth",
-  "version": "0.2.6",
+  "version": "0.3.0",
   "license": "MIT",
   "type": "module",
   "exports": {
