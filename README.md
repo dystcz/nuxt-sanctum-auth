@@ -69,7 +69,7 @@ When you log in using the module, it automatically redirects you to the `home` r
 ```vue
 <script setup>
 const { $sanctumAuth } = useNuxtApp()
-const router = userRouter()
+const router = useRouter()
 const errors = ref([])
 
 async function login () => {
@@ -100,7 +100,7 @@ When you log out, the module will automatically redirect you to the `logout` rou
 ```vue
 <script setup>
 const { $sanctumAuth } = useNuxtApp()
-const router = userRouter()
+const router = useRouter()
 
 const logout = async () => {
   await $sanctumAuth.logout(
