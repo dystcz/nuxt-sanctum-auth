@@ -4,6 +4,7 @@ import {
   useState,
   useRuntimeConfig,
   useCookie
+  // @ts-ignore
 } from '#app'
 import { ofetch } from 'ofetch'
 import { ModuleOptions, Auth, Callback } from '../types'
@@ -15,6 +16,7 @@ export default defineNuxtPlugin(async () => {
       loggedIn: false
     }
   })
+
   const config: ModuleOptions = useRuntimeConfig().nuxtSanctumAuth
 
   addRouteMiddleware('auth', async () => {
@@ -24,6 +26,7 @@ export default defineNuxtPlugin(async () => {
       return config.redirects.login
     }
   })
+
   addRouteMiddleware('guest', async () => {
     await getUser()
 
@@ -41,7 +44,7 @@ export default defineNuxtPlugin(async () => {
     } as HeadersInit
   })
 
-  const csrf = async () => {
+  async function csrf(): Promise<void> {
     await ofetch(config.endpoints.csrf, {
       baseURL: config.baseUrl,
       credentials: 'include',
@@ -52,9 +55,9 @@ export default defineNuxtPlugin(async () => {
     })
   }
 
-  const getUser = async () => {
+  async function getUser<T>(): Promise<T | undefined> {
     if (auth.value.loggedIn && auth.value.user) {
-      return auth.value.user
+      return auth.value.user as T
     }
 
     try {
@@ -62,18 +65,21 @@ export default defineNuxtPlugin(async () => {
       if (user) {
         auth.value.loggedIn = true
         auth.value.user = user
-        return user
+        return user as T
       }
     } catch (error) {
       // console.log(error)
     }
   }
 
-  const login = async (data: any, callback?: Callback | undefined) => {
+  async function login(
+    data: any,
+    callback?: Callback | undefined
+  ): Promise<void> {
     await csrf()
 
     try {
-      const response = await apiFetch(config.endpoints.login, {
+      const response = await apiFetch<Response>(config.endpoints.login, {
         method: 'POST',
         body: JSON.stringify(data),
         headers: {
@@ -92,7 +98,7 @@ export default defineNuxtPlugin(async () => {
     }
   }
 
-  const logout = async (callback?: Callback | undefined) => {
+  const logout = async (callback?: Callback | undefined): Promise<void> => {
     try {
       const response = await apiFetch(config.endpoints.logout, {
         method: 'POST'
