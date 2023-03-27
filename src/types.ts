@@ -12,6 +12,7 @@ export interface Redirects {
 }
 
 export interface ModuleOptions {
+  token: boolean
   baseUrl: string
   endpoints: Endpoints
   redirects: Redirects
@@ -20,6 +21,7 @@ export interface ModuleOptions {
 export interface Auth {
   user: any | null
   loggedIn: boolean
+  token: string | null
 }
 
 export type Callback = (response: any) => void

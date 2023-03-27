@@ -1,7 +1,8 @@
-import { defineNuxtModule, addPlugin, createResolver } from '@nuxt/kit'
+import { defineNuxtModule, createResolver, addPlugin } from '@nuxt/kit'
 import { ModuleOptions } from './types'
 
 const defaults: ModuleOptions = {
+  token: false,
   baseUrl: 'http://localhost:8000',
   endpoints: {
     csrf: '/sanctum/csrf-cookie',
