@@ -42,6 +42,7 @@ export default defineNuxtConfig({
     // ...
   ],
   nuxtSanctumAuth: {
+    token: false, // set true to use jwt-token auth instead of cookie. default is false
     baseUrl: 'http://localhost:8000',
     endpoints: {
       csrf: '/sanctum/csrf-cookie',
@@ -72,7 +73,7 @@ const { $sanctumAuth } = useNuxtApp()
 const router = useRouter()
 const errors = ref([])
 
-async function login () => {
+async function login () {
   try {
     await $sanctumAuth.login(
       {
@@ -126,11 +127,11 @@ const { user, loggedIn } = useState('auth').value
 <template>
   <div>
     Is user logged in?
-    <sapn>{{ loggedIn ? 'yes' : 'no' }}</sapn>
+    <span>{{ loggedIn ? 'yes' : 'no' }}</span>
   </div>
   <div v-if="loggedIn">
     What is users name?
-    <sapn>{{ user.name }}</sapn>
+    <span>{{ user.name }}</span>
   </div>
 </template>
 ```
@@ -160,9 +161,42 @@ definePageMeta({
 </script>
 ```
 
+### Using JWT-token auth instead of cookie
+
+If you want to use Laravel Sanctum with JWT token authentication method,
+set the `token` property to true in the module configuration.
+```js
+nuxtSanctumAuth: {
+    token: true
+    // other properties
+  }
+```
+Your Laravel backend should respond on the login endpoint with a json containing property `token`:
+```json
+{
+  "token": "1|p1tEPICErFs9TpGKjfkz5QcWDi5M4YqJpVLGUwqM"
+}
+```
+
+Once logged in, the token will be saved in a cookie.
+
+If you need to access the token, use property of `useState('auth')`
+```vue
+<script setup>
+const { token } = useState('auth').value
+</script>
+
+<template>
+  <div>
+    What is auth jwt token?
+    <span>{{ token }}</span>
+  </div>
+</template>
+```
+
 ### Data fetching
 
-In guarded pages, you will have to use special fetching method inside `useAsyncData`. This methods is responsible for carrying the XSRF token.
+In guarded pages, you will have to use special fetching method inside `useAsyncData`. This methods is responsible for carrying the XSRF or JWT auth token.
 
 ```vue
 <script setup>

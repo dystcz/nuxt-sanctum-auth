@@ -17,6 +17,7 @@ export default defineNuxtConfig({
   modules: [nuxtSanctumAuth, '@nuxtjs/tailwindcss'],
 
   nuxtSanctumAuth: {
+    token: false, // set true to test jwt-token auth instead of cookie
     baseUrl: 'http://localhost:8000',
     endpoints: {
       csrf: '/sanctum/csrf-cookie',
