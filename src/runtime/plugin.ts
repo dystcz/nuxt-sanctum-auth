@@ -7,7 +7,7 @@ import {
   // @ts-ignore
 } from '#app'
 import { FetchOptions, FetchRequest, ofetch } from 'ofetch'
-import { ModuleOptions, Auth, Callback } from '../types'
+import { ModuleOptions, Auth, Callback, Csrf } from '../types'
 
 export default defineNuxtPlugin(async () => {
   const auth = useState<Auth>('auth', () => {
@@ -53,7 +53,7 @@ export default defineNuxtPlugin(async () => {
     return fetch(endpoint, options)
   }
 
-  async function csrf(): Promise<void> {
+  async function csrf (): Csrf {
     await ofetch(config.endpoints.csrf, {
       baseURL: config.baseUrl,
       credentials: 'include',
@@ -76,7 +76,7 @@ export default defineNuxtPlugin(async () => {
     useCookie('nuxt-sanctum-auth-token').value = null
   }
 
-  async function getUser<T>(): Promise<T | undefined> {
+  async function getUser<T> (): Promise<T | undefined> {
     if (auth.value.loggedIn && auth.value.user) {
       return auth.value.user as T
     }
@@ -93,7 +93,7 @@ export default defineNuxtPlugin(async () => {
     }
   }
 
-  async function login(
+  async function login (
     data: any,
     callback?: Callback | undefined
   ): Promise<void> {

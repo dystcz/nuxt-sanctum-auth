@@ -1,3 +1,5 @@
+import { FetchOptions, FetchRequest } from 'ofetch'
+
 export interface Endpoints {
   csrf: string
   login: string
@@ -24,4 +26,38 @@ export interface Auth {
   token: string | null
 }
 
+export type ApiFetch = (endpoint: FetchRequest, options?: FetchOptions) => Promise<void>
+
+export type Csrf = Promise<void>
+
 export type Callback = (response: any) => void
+
+export interface SanctumAuthPlugin {
+  login: (data: any, callback?: Callback | undefined) => Promise<void>
+  logout: (callback?: Callback | undefined) => Promise<void>
+  getUser<T> (): Promise<T | undefined>
+}
+
+// @ts-ignore
+declare module 'vue/types/vue' {
+  interface Vue {
+    $sanctumAuth: SanctumAuthPlugin
+  }
+}
+
+// Nuxt Bridge & Nuxt 3
+declare module '#app' {
+  interface NuxtApp extends PluginInjection {
+  }
+}
+
+interface PluginInjection {
+  $sanctumAuth: SanctumAuthPlugin
+  apiFetch: ApiFetch,
+  csrf: Csrf,
+}
+
+declare module '@vue/runtime-core' {
+  interface ComponentCustomProperties extends PluginInjection {
+  }
+}
