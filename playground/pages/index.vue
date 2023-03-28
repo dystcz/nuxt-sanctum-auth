@@ -1,14 +1,9 @@
 <script setup lang="ts">
-import { useState, ref, computed, onMounted, useNuxtApp } from '#imports'
-
-interface Auth {
-  user: any
-  loggedIn: boolean
-}
+import { ref, onMounted, useNuxtApp, useAuth } from '#imports'
 
 const { $sanctumAuth } = useNuxtApp()
 const loading = ref(true)
-const auth = computed(() => useState<Auth>('auth').value)
+const auth = useAuth()
 
 onMounted(async () => {
   await $sanctumAuth.getUser()

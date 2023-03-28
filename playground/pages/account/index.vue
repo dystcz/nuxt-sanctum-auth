@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { definePageMeta, useNuxtApp, useState } from '#imports'
+import { definePageMeta, useAuth, useNuxtApp, useState } from '#imports'
 definePageMeta({
   middleware: ['auth']
 })
@@ -10,7 +10,7 @@ interface Auth {
 }
 
 const { $sanctumAuth } = useNuxtApp()
-const auth = useState<Auth>('auth').value
+const auth = useAuth()
 const logout = async () => {
   await $sanctumAuth.logout()
 }
