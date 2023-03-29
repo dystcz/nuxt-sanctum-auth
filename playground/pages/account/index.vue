@@ -1,13 +1,8 @@
 <script setup lang="ts">
-import { definePageMeta, useAuth, useNuxtApp, useState } from '#imports'
+import { definePageMeta, useAuth, useNuxtApp } from '#imports'
 definePageMeta({
   middleware: ['auth']
 })
-
-interface Auth {
-  user: any
-  loggedIn: boolean
-}
 
 const { $sanctumAuth } = useNuxtApp()
 const auth = useAuth()
