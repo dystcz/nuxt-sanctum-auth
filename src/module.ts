@@ -1,7 +1,8 @@
-import { defineNuxtModule, addPlugin, createResolver } from '@nuxt/kit'
+import { defineNuxtModule, createResolver, addPlugin, addImports } from '@nuxt/kit'
 import { ModuleOptions } from './types'
 
 const defaults: ModuleOptions = {
+  token: false,
   baseUrl: 'http://localhost:8000',
   endpoints: {
     csrf: '/sanctum/csrf-cookie',
@@ -26,5 +27,12 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.options.runtimeConfig.public.nuxtSanctumAuth = options
     const { resolve } = createResolver(import.meta.url)
     addPlugin(resolve('./runtime/plugin'))
+
+    addImports({
+      name: 'useAuth',
+      as: 'useAuth',
+      from: resolve('runtime/composables')
+    })
+
   }
 })
