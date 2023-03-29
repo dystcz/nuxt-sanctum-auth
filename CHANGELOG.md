@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.4.0
+
+### Features
+
+- Ability to use JWT token instead of cookie for managing auth
+
+### ❤️ Contributors
+
+- davide-granello
+
 ## v0.3.2
 
 - Added type definitions for login, logout and getUser methods
