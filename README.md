@@ -73,7 +73,7 @@ const { $sanctumAuth } = useNuxtApp()
 const router = useRouter()
 const errors = ref([])
 
-async function login () {
+async function login() {
   try {
     await $sanctumAuth.login(
       {
@@ -108,7 +108,7 @@ const logout = async () => {
     // optional callback function
     (data) => {
       console.log(data)
-      router.push('/account')
+      router.push('/')
     }
   )
 }
@@ -165,13 +165,16 @@ definePageMeta({
 
 If you want to use Laravel Sanctum with JWT token authentication method,
 set the `token` property to true in the module configuration.
+
 ```js
 nuxtSanctumAuth: {
-    token: true
-    // other properties
-  }
+  token: true
+  // other properties
+}
 ```
+
 Your Laravel backend should respond on the login endpoint with a json containing property `token`:
+
 ```json
 {
   "token": "1|p1tEPICErFs9TpGKjfkz5QcWDi5M4YqJpVLGUwqM"
@@ -181,6 +184,7 @@ Your Laravel backend should respond on the login endpoint with a json containing
 Once logged in, the token will be saved in a cookie.
 
 If you need to access the token, use property of `useState('auth')`
+
 ```vue
 <script setup>
 const { token } = useState('auth').value
