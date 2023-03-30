@@ -117,11 +117,11 @@ const logout = async () => {
 
 ### Accessing user
 
-The module automatically pushes info about user into `useState('auth')`.
+The module creates a `useAuth()` composable that utilizes `useState('auth')` in the background. You can use it to get access to a user.
 
 ```vue
 <script setup>
-const { user, loggedIn } = useState('auth').value
+const { user, loggedIn } = useAuth() // or useState('auth').value
 </script>
 
 <template>
@@ -183,11 +183,11 @@ Your Laravel backend should respond on the login endpoint with a json containing
 
 Once logged in, the token will be saved in a cookie.
 
-If you need to access the token, use property of `useState('auth')`
+If you need to access the token, use property of `useAuth()`
 
 ```vue
 <script setup>
-const { token } = useState('auth').value
+const { token } = useAuth()
 </script>
 
 <template>
@@ -205,7 +205,7 @@ In guarded pages, you will have to use special fetching method inside `useAsyncD
 ```vue
 <script setup>
 const { $apiFetch } = useNuxtApp()
-const { data: posts } = await useAsyncData(() => $apiFetch(`posts`))
+const { data: posts } = await useAsyncData('posts', () => $apiFetch(`posts`))
 </script>
 ```
 
@@ -218,7 +218,7 @@ Only downside is that you have to handle potential empty states your self. Typic
 <script setup>
 const { $sanctumAuth } = useNuxtApp()
 const loading = ref(true)
-const auth = computed(() => useState('auth').value) // return auth state
+const auth = useAuth() // return auth state
 
 onMounted(async () => {
   await $sanctumAuth.getUser() // fetch and set user data
