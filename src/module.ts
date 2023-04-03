@@ -10,6 +10,10 @@ const defaults: ModuleOptions = {
     logout: '/logout',
     user: '/user'
   },
+  csrf: {
+    headerKey: 'X-XSRF-TOKEN',
+    cookieKey: 'XSRF-TOKEN',
+  },
   redirects: {
     home: '/',
     login: '/login',
