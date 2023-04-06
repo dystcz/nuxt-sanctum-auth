@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.4.1
+
+### Features
+
+- Added ability to add custom CSRF keys
+
+### ❤️ Contributors
+
+- Conor-Hughes
+
 ## v0.4.0
 
 ### Features

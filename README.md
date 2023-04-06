@@ -50,6 +50,10 @@ export default defineNuxtConfig({
       logout: '/logout',
       user: '/user'
     },
+    csrf: {
+      headerKey: 'X-XSRF-TOKEN',
+      cookieKey: 'XSRF-TOKEN'
+    },
     redirects: {
       home: '/account',
       login: '/auth/login',
