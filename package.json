@@ -1,6 +1,6 @@
 {
   "name": "nuxt-sanctum-auth",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "license": "MIT",
   "type": "module",
   "exports": {
@@ -19,10 +19,10 @@
     "dev": "nuxi dev playground",
     "dev:build": "nuxi build playground",
     "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground",
-    "release": "npm run prepack && npm publish && git push --follow-tags"
+    "release": "npm run prepack && changelogen --release && npm publish && git push --follow-tags"
   },
   "dependencies": {
-    "@nuxt/kit": "^3.0.0",
+    "@nuxt/kit": "^3.2.0",
     "ofetch": "^1.0.0"
   },
   "devDependencies": {
