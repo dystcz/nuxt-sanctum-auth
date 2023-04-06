@@ -28,11 +28,14 @@ export interface Auth {
 }
 
 export interface CSRFSpec {
-  headerKey: string,
-  cookieKey: string,
+  headerKey: string
+  cookieKey: string
 }
 
-export type ApiFetch = (endpoint: FetchRequest, options?: FetchOptions) => Promise<void>
+export type ApiFetch = (
+  endpoint: FetchRequest,
+  options?: FetchOptions
+) => Promise<void>
 
 export type Csrf = Promise<void>
 
@@ -41,7 +44,7 @@ export type Callback = (response: any) => void
 export interface SanctumAuthPlugin {
   login: (data: any, callback?: Callback | undefined) => Promise<void>
   logout: (callback?: Callback | undefined) => Promise<void>
-  getUser<T> (): Promise<T | undefined>
+  getUser<T>(): Promise<T | undefined>
 }
 
 // @ts-ignore
@@ -53,17 +56,15 @@ declare module 'vue/types/vue' {
 
 // Nuxt Bridge & Nuxt 3
 declare module '#app' {
-  interface NuxtApp extends PluginInjection {
-  }
+  interface NuxtApp extends PluginInjection {}
 }
 
 interface PluginInjection {
   $sanctumAuth: SanctumAuthPlugin
-  apiFetch: ApiFetch,
-  csrf: Csrf,
+  $apiFetch: ApiFetch
+  $csrf: Csrf
 }
 
 declare module '@vue/runtime-core' {
-  interface ComponentCustomProperties extends PluginInjection {
-  }
+  interface ComponentCustomProperties extends PluginInjection {}
 }
