@@ -14,6 +14,7 @@ export interface Redirects {
 }
 
 export interface ModuleOptions {
+  csrf: CSRFSpec
   token: boolean
   baseUrl: string
   endpoints: Endpoints
@@ -24,6 +25,11 @@ export interface Auth {
   user: any | null
   loggedIn: boolean
   token: string | null
+}
+
+export interface CSRFSpec {
+  headerKey: string,
+  cookieKey: string,
 }
 
 export type ApiFetch = (endpoint: FetchRequest, options?: FetchOptions) => Promise<void>
