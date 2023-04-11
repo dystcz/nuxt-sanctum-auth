@@ -20,41 +20,45 @@ export default defineNuxtPlugin(async () => {
 
   const config: ModuleOptions = useRuntimeConfig().nuxtSanctumAuth
 
-  addRouteMiddleware('fetch-user', async () => {
-    getToken()
-
+  addRouteMiddleware('auth', async () => {
+    if (config.token) {
+      getToken()
+    }
     await getUser()
 
-  }, { global: true })
-
-  addRouteMiddleware('auth', async () => {
     if (auth.value.loggedIn === false) {
       return config.redirects.login
     }
   })
 
   addRouteMiddleware('guest', async () => {
+    if (config.token) {
+      getToken()
+    }
+    await getUser()
+
     if (auth.value.loggedIn) {
       return config.redirects.home
     }
   })
 
   const apiFetch = (endpoint: FetchRequest, options?: FetchOptions) => {
-
     const fetch = ofetch.create({
       baseURL: config.baseUrl,
       credentials: 'include',
       headers: {
         Accept: 'application/json',
-        [config.csrf.headerKey]: !config.token ? useCookie(config.csrf.cookieKey).value : null,
-        'Authorization': config.token ? 'Bearer ' + auth.value.token : null
+        [config.csrf.headerKey]: !config.token
+          ? useCookie(config.csrf.cookieKey).value
+          : null,
+        Authorization: config.token ? 'Bearer ' + auth.value.token : null
       } as HeadersInit
     })
 
     return fetch(endpoint, options)
   }
 
-  async function csrf (): Csrf {
+  async function csrf(): Csrf {
     await ofetch(config.endpoints.csrf, {
       baseURL: config.baseUrl,
       credentials: 'include',
@@ -66,7 +70,7 @@ export default defineNuxtPlugin(async () => {
   }
 
   const getToken = () => {
-    auth.value.token = useCookie('nuxt-sanctum-auth-token').value
+    auth.value.token = useCookie('nuxt-sanctum-auth-token')?.value || null
   }
 
   const setToken = (token: string) => {
@@ -77,7 +81,7 @@ export default defineNuxtPlugin(async () => {
     useCookie('nuxt-sanctum-auth-token').value = null
   }
 
-  async function getUser<T> (): Promise<T | undefined> {
+  async function getUser<T>(): Promise<T | undefined> {
     if (auth.value.loggedIn && auth.value.user) {
       return auth.value.user as T
     }
@@ -94,11 +98,10 @@ export default defineNuxtPlugin(async () => {
     }
   }
 
-  async function login (
+  async function login(
     data: any,
     callback?: Callback | undefined
   ): Promise<void> {
-
     if (!config.token) {
       await csrf()
     }
@@ -110,7 +113,7 @@ export default defineNuxtPlugin(async () => {
         headers: {
           Accept: 'application/json',
           'X-XSRF-TOKEN': !config.token ? useCookie('XSRF-TOKEN').value : null,
-          'Authorization': config.token ? 'Bearer ' + auth.value.token : null
+          Authorization: config.token ? 'Bearer ' + auth.value.token : null
         } as HeadersInit
       })
 
