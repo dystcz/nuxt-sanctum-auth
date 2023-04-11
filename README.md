@@ -143,7 +143,7 @@ const { user, loggedIn } = useAuth() // or useState('auth').value
 ### Middleware
 
 Package automatically provides two middlewares for you to use: `auth` and `guest`.
-If you are using `routeRules` make sure to set `ssr: false` for all pages that will be using those middlewares.
+If you are using `routeRules` make sure to set `ssr: false` for all pages that will be using those middlewares. Please note that those middlewares are not global and are needed to be included on every protected page. Global middlewares are not possible for now, beacuse of avaliability of `hybrid` mode.
 
 #### Pages available only when not logged in
 
