@@ -30,6 +30,7 @@ export interface Auth {
 export interface CSRFSpec {
   headerKey: string
   cookieKey: string
+  tokenCookieKey: string
 }
 
 export type ApiFetch = (

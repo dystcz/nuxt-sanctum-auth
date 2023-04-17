@@ -70,15 +70,15 @@ export default defineNuxtPlugin(async () => {
   }
 
   const getToken = () => {
-    auth.value.token = useCookie('nuxt-sanctum-auth-token')?.value || null
+    auth.value.token = useCookie(config.csrf.tokenCookieKey)?.value || null
   }
 
   const setToken = (token: string) => {
-    useCookie('nuxt-sanctum-auth-token').value = token
+    useCookie(config.csrf.tokenCookieKey).value = token
   }
 
   const clearToken = () => {
-    useCookie('nuxt-sanctum-auth-token').value = null
+    useCookie(config.csrf.tokenCookieKey).value = null
   }
 
   async function getUser<T>(): Promise<T | undefined> {
@@ -112,7 +112,9 @@ export default defineNuxtPlugin(async () => {
         body: JSON.stringify(data),
         headers: {
           Accept: 'application/json',
-          'X-XSRF-TOKEN': !config.token ? useCookie('XSRF-TOKEN').value : null,
+          [config.csrf.headerKey]: !config.token
+            ? useCookie(config.csrf.cookieKey).value
+            : null,
           Authorization: config.token ? 'Bearer ' + auth.value.token : null
         } as HeadersInit
       })

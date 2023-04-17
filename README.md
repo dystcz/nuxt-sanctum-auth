@@ -52,7 +52,8 @@ export default defineNuxtConfig({
     },
     csrf: {
       headerKey: 'X-XSRF-TOKEN',
-      cookieKey: 'XSRF-TOKEN'
+      cookieKey: 'XSRF-TOKEN',
+      tokenCookieKey: 'nuxt-sanctum-auth-token'
     },
     redirects: {
       home: '/account',

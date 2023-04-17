@@ -1,4 +1,9 @@
-import { defineNuxtModule, createResolver, addPlugin, addImports } from '@nuxt/kit'
+import {
+  defineNuxtModule,
+  createResolver,
+  addPlugin,
+  addImports
+} from '@nuxt/kit'
 import { ModuleOptions } from './types'
 
 const defaults: ModuleOptions = {
@@ -13,6 +18,7 @@ const defaults: ModuleOptions = {
   csrf: {
     headerKey: 'X-XSRF-TOKEN',
     cookieKey: 'XSRF-TOKEN',
+    tokenCookieKey: 'nuxt-sanctum-auth-token'
   },
   redirects: {
     home: '/',
@@ -37,6 +43,5 @@ export default defineNuxtModule<ModuleOptions>({
       as: 'useAuth',
       from: resolve('runtime/composables')
     })
-
   }
 })
