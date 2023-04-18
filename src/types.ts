@@ -33,10 +33,10 @@ export interface CSRFSpec {
   tokenCookieKey: string
 }
 
-export type ApiFetch = (
+export type ApiFetch = <T>(
   endpoint: FetchRequest,
   options?: FetchOptions
-) => Promise<void>
+) => Promise<T>
 
 export type Csrf = Promise<void>
 
