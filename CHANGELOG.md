@@ -1,5 +1,7 @@
 # Changelog
 
+## v0.4.7
+
 ## v0.4.6
 
 - apiFetch function now return dynamic type
