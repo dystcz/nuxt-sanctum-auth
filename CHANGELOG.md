@@ -2,13 +2,13 @@
 
 ## v0.4.6
 
-## v0.4.5
-
 - apiFetch function now return dynamic type
 
 ### ❤️ Contributors
 
 - davide-granello
+
+## v0.4.5
 
 ## v0.4.4
 
