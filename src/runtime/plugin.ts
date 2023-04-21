@@ -18,7 +18,7 @@ export default defineNuxtPlugin(async () => {
     }
   })
 
-  const config: ModuleOptions = useRuntimeConfig().nuxtSanctumAuth
+  const config: ModuleOptions = useRuntimeConfig().public.nuxtSanctumAuth
 
   addRouteMiddleware('auth', async () => {
     if (config.token) {
