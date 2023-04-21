@@ -2,6 +2,8 @@
 
 ## v0.4.7
 
+- fix runtime config error, now using public runtime config
+
 ## v0.4.6
 
 - apiFetch function now return dynamic type
