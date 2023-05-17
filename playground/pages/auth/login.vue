@@ -10,8 +10,8 @@ const { $sanctumAuth } = useNuxtApp()
 const router = useRouter()
 
 const form = reactive({
-  email: 'pavel@dy.st',
-  password: 'hesloheslo'
+  email: '',
+  password: ''
 })
 
 const errors = ref<any>(null)
