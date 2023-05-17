@@ -1,33 +1,38 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { definePageMeta, useNuxtApp } from '#imports'
+import { reactive, ref } from 'vue'
+import { definePageMeta, useNuxtApp, useRouter } from '#imports'
 
 definePageMeta({
   middleware: ['guest']
 })
 
-const form = ref({
-  email: '',
-  password: ''
-})
-const error = ref('')
-
 const { $sanctumAuth } = useNuxtApp()
+const router = useRouter()
 
-const login = async () => {
-  try {
-    await $sanctumAuth.login(form.value)
-  } catch (e: any) {
-    console.log(e?.message)
-    error.value = e?.message
+const form = reactive({
+  email: 'pavel@dy.st',
+  password: 'hesloheslo'
+})
+
+const errors = ref<any>(null)
+async function login() {
+  const { response, error } = await $sanctumAuth.login(form)
+
+  if (error) {
+    console.log(error._data)
+    errors.value = error._data
+    return
   }
+
+  console.log(response?._data)
+  router.push('/account')
 }
 </script>
 
 <template>
   <form
     @submit.prevent="login"
-    class="flex flex-col p-4 rounded shadow space-y-4 bg-white min-w-[400px]"
+    class="flex flex-col p-4 rounded shadow space-y-4 w-full bg-white max-w-[400px]"
   >
     <h1 class="text-2xl font-bold text-center">Login</h1>
     <div class="flex flex-col">
@@ -49,10 +54,11 @@ const login = async () => {
       />
     </div>
     <button class="w-full block rounded bg-blue-500 uppercase text-white py-2">
-      login
+      log in
     </button>
-    <div v-if="error" class="text-sm text-red-500">
-      {{ error }}
+
+    <div v-if="errors" class="text-sm text-red-500">
+      {{ errors }}
     </div>
   </form>
 </template>

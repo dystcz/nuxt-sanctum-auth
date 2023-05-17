@@ -5,10 +5,17 @@ const { $sanctumAuth } = useNuxtApp()
 const loading = ref(true)
 const auth = useAuth()
 
-onMounted(async () => {
-  await $sanctumAuth.getUser()
+onMounted(() => {
   loading.value = false
 })
+
+async function logout() {
+  const { error, response } = await $sanctumAuth.logout()
+  if (error) {
+    console.log(error._data)
+    return
+  }
+}
 </script>
 
 <template>
@@ -41,6 +48,14 @@ onMounted(async () => {
         <nuxt-link class="text-blue-500 underline" to="/account">
           Go to account
         </nuxt-link>
+
+        <button
+          type="button"
+          @click.prevent="logout"
+          class="w-full block rounded bg-blue-500 uppercase text-white py-2"
+        >
+          log out
+        </button>
       </div>
     </template>
   </div>

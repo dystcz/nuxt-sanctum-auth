@@ -6,8 +6,8 @@ import {
   useCookie
   // @ts-ignore
 } from '#app'
-import { FetchOptions, FetchRequest, ofetch } from 'ofetch'
-import { ModuleOptions, Auth, Callback, Csrf } from '../types'
+import { FetchOptions, FetchRequest, ofetch, FetchResponse } from 'ofetch'
+import { ModuleOptions, Auth, Csrf, Response } from '../types'
 
 export default defineNuxtPlugin(async () => {
   const auth = useState<Auth>('auth', () => {
@@ -20,29 +20,7 @@ export default defineNuxtPlugin(async () => {
 
   const config: ModuleOptions = useRuntimeConfig().public.nuxtSanctumAuth
 
-  addRouteMiddleware('auth', async () => {
-    if (config.token) {
-      getToken()
-    }
-    await getUser()
-
-    if (auth.value.loggedIn === false) {
-      return config.redirects.login
-    }
-  })
-
-  addRouteMiddleware('guest', async () => {
-    if (config.token) {
-      getToken()
-    }
-    await getUser()
-
-    if (auth.value.loggedIn) {
-      return config.redirects.home
-    }
-  })
-
-  const apiFetch = (endpoint: FetchRequest, options?: FetchOptions) => {
+  function apiFetch(endpoint: FetchRequest, options?: FetchOptions) {
     const fetch = ofetch.create({
       baseURL: config.baseUrl,
       credentials: 'include',
@@ -55,7 +33,7 @@ export default defineNuxtPlugin(async () => {
       } as HeadersInit
     })
 
-    return fetch(endpoint, options)
+    return fetch.raw(endpoint, options)
   }
 
   async function csrf(): Csrf {
@@ -69,44 +47,51 @@ export default defineNuxtPlugin(async () => {
     })
   }
 
-  const getToken = () => {
+  function getToken() {
     auth.value.token = useCookie(config.csrf.tokenCookieKey)?.value || null
   }
 
-  const setToken = (token: string) => {
+  function setToken(token: string) {
     useCookie(config.csrf.tokenCookieKey).value = token
   }
 
-  const clearToken = () => {
+  function clearToken() {
     useCookie(config.csrf.tokenCookieKey).value = null
   }
 
-  async function getUser<T>(): Promise<T | undefined> {
-    if (auth.value.loggedIn && auth.value.user) {
-      return auth.value.user as T
-    }
+  function clearState(): void {
+    auth.value.user = null
+    auth.value.loggedIn = false
+    auth.value.token = null
+    clearToken()
+  }
 
+  function setUser(user: any) {
+    auth.value.user = user
+    auth.value.loggedIn = true
+  }
+
+  async function getUser<ResponseT, ErrorT>(): Response<ResponseT, ErrorT> {
     try {
-      const user = await apiFetch(config.endpoints.user)
-      if (user) {
-        auth.value.loggedIn = true
-        auth.value.user = user
-        return user as T
+      const response = await apiFetch(config.endpoints.user)
+      setUser(response._data)
+
+      return { response }
+    } catch (e: any) {
+      return {
+        error: (e?.response as FetchResponse<ErrorT>) || undefined
       }
-    } catch (error) {
-      // console.log(error)
     }
   }
 
-  async function login(
-    data: any,
-    callback?: Callback | undefined
-  ): Promise<void> {
-    if (!config.token) {
-      await csrf()
-    }
-
+  async function loginRequest<ResponseT, ErrorT>(
+    data: any
+  ): Response<ResponseT, ErrorT> {
     try {
+      if (!config.token) {
+        await csrf()
+      }
+
       const response = await apiFetch(config.endpoints.login, {
         method: 'POST',
         body: JSON.stringify(data),
@@ -119,46 +104,83 @@ export default defineNuxtPlugin(async () => {
         } as HeadersInit
       })
 
-      if (config.token && response) {
-        setToken(response.token)
+      if (config.token && response?._data?.token) {
+        setToken(response?._data?.token)
       }
-
-      if (callback !== undefined) {
-        callback(response)
-        return
+      return { response }
+    } catch (e: any) {
+      return {
+        error: e?.response as FetchResponse<ErrorT>
       }
-      window.location.replace(config.redirects.home)
-    } catch (error: any) {
-      throw error.data
     }
   }
 
-  const logout = async (callback?: Callback | undefined): Promise<void> => {
+  async function login<ResponseT, ErrorT>(
+    data: any
+  ): Response<ResponseT, ErrorT> {
+    const { error } = await loginRequest(data)
+    return error
+      ? { error: error as FetchResponse<ErrorT> }
+      : await getUser<ResponseT, ErrorT>()
+  }
+
+  async function logout<ResponseT, ErrorT>(): Response<ResponseT, ErrorT> {
     try {
       const response = await apiFetch(config.endpoints.logout, {
         method: 'POST'
       })
-      if (callback !== undefined) {
-        callback(response)
-        return
-      }
 
-      window.location.replace(config.redirects.logout)
-    } catch (error) {
-      console.log(error)
-    } finally {
-      auth.value.loggedIn = false
-      auth.value.user = null
-      auth.value.token = null
-      clearToken()
+      clearState()
+      return { response }
+    } catch (e: any) {
+      return {
+        error: e?.response as FetchResponse<ErrorT>
+      }
     }
   }
+
+  async function checkAuth(): Promise<void> {
+    if (config.token) {
+      getToken()
+    }
+    await getUser()
+  }
+
+  addRouteMiddleware(
+    'sanctum',
+    async () => {
+      if (!process.client) return
+      await checkAuth()
+    },
+    {
+      global: true
+    }
+  )
+
+  addRouteMiddleware('auth', async () => {
+    if (!process.client) return
+
+    await checkAuth()
+    if (auth.value.loggedIn === false) {
+      return config.redirects.login
+    }
+  })
+
+  addRouteMiddleware('guest', async () => {
+    if (!process.client) return
+
+    await checkAuth()
+    if (auth.value.loggedIn === true) {
+      return config.redirects.home
+    }
+  })
 
   return {
     provide: {
       apiFetch,
       csrf,
       sanctumAuth: {
+        loginRequest,
         login,
         getUser,
         logout

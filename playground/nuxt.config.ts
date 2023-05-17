@@ -8,11 +8,6 @@ export default defineNuxtConfig({
     }
   },
 
-  routeRules: {
-    '/account/**': { ssr: false },
-    '/auth/**': { ssr: false }
-  },
-
   //@ts-ignore
   modules: [nuxtSanctumAuth, '@nuxtjs/tailwindcss'],
 
