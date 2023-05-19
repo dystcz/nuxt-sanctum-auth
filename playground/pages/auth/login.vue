@@ -3,7 +3,8 @@ import { reactive, ref } from 'vue'
 import { definePageMeta, useNuxtApp, useRouter } from '#imports'
 
 definePageMeta({
-  middleware: ['guest']
+  middleware: ['guest'],
+  auth: false
 })
 
 const { $sanctumAuth } = useNuxtApp()
@@ -25,7 +26,7 @@ async function login() {
   }
 
   console.log(response?._data)
-  router.push('/account')
+  // router.push('/account')
 }
 </script>
 

@@ -1,8 +1,5 @@
 <script setup lang="ts">
 import { definePageMeta, useAuth, useNuxtApp, useRouter } from '#imports'
-definePageMeta({
-  middleware: ['auth']
-})
 
 const { $sanctumAuth } = useNuxtApp()
 const auth = useAuth()
@@ -16,7 +13,7 @@ async function logout() {
   }
 
   console.log(response?._data)
-  router.push('/auth/login')
+  // router.push('/auth/login')
 }
 </script>
 

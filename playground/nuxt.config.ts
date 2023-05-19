@@ -14,6 +14,8 @@ export default defineNuxtConfig({
   nuxtSanctumAuth: {
     token: false, // set true to test jwt-token auth instead of cookie
     baseUrl: 'http://localhost:8000',
+    globalMiddleware: true,
+    redirectByDefault: false,
     endpoints: {
       csrf: '/sanctum/csrf-cookie',
       login: '/login',
