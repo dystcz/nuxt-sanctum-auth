@@ -119,9 +119,16 @@ export default defineNuxtPlugin(async () => {
     data: any
   ): Response<ResponseT, ErrorT> {
     const { error } = await loginRequest(data)
-    return error
-      ? { error: error as FetchResponse<ErrorT> }
-      : await getUser<ResponseT, ErrorT>()
+
+    if (error) {
+      return { error: error as FetchResponse<ErrorT> }
+    }
+
+    if (config.redirectByDefault) {
+      window.location.href = config.redirects.home
+    }
+
+    return await getUser<ResponseT, ErrorT>()
   }
 
   async function logout<ResponseT, ErrorT>(): Response<ResponseT, ErrorT> {
@@ -131,6 +138,9 @@ export default defineNuxtPlugin(async () => {
       })
 
       clearState()
+      if (config.redirectByDefault) {
+        window.location.href = config.redirects.logout
+      }
       return { response }
     } catch (e: any) {
       return {
@@ -140,6 +150,8 @@ export default defineNuxtPlugin(async () => {
   }
 
   async function checkAuth(): Promise<void> {
+    if (auth.value.loggedIn === true) return
+
     if (config.token) {
       getToken()
     }
@@ -157,19 +169,24 @@ export default defineNuxtPlugin(async () => {
     }
   )
 
-  addRouteMiddleware('auth', async () => {
-    if (!process.client) return
+  addRouteMiddleware(
+    'auth',
+    async (to, from) => {
+      if (!process.client) return
+      if (to.meta?.auth === false) return
 
-    await checkAuth()
-    if (auth.value.loggedIn === false) {
-      return config.redirects.login
+      if (auth.value.loggedIn === false) {
+        return config.redirects.login
+      }
+    },
+    {
+      global: config.globalMiddleware
     }
-  })
+  )
 
-  addRouteMiddleware('guest', async () => {
+  addRouteMiddleware('guest', async (to, from) => {
     if (!process.client) return
 
-    await checkAuth()
     if (auth.value.loggedIn === true) {
       return config.redirects.home
     }

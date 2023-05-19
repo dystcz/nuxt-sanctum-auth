@@ -19,6 +19,8 @@ export interface ModuleOptions {
   baseUrl: string
   endpoints: Endpoints
   redirects: Redirects
+  redirectByDefault: boolean
+  globalMiddleware: boolean
 }
 
 export interface Auth {
