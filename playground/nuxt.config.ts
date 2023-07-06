@@ -8,16 +8,20 @@ export default defineNuxtConfig({
     }
   },
 
+  routeRules: {
+    '/account/**': { ssr: false },
+    '/auth/**': { ssr: false }
+  },
+
   //@ts-ignore
   modules: [nuxtSanctumAuth, '@nuxtjs/tailwindcss'],
 
   nuxtSanctumAuth: {
     token: false, // set true to test jwt-token auth instead of cookie
     baseUrl: 'http://localhost:8000',
-    globalMiddleware: true,
-    redirectByDefault: false,
     endpoints: {
       csrf: '/sanctum/csrf-cookie',
+      register: '/register',
       login: '/login',
       logout: '/logout',
       user: '/user'

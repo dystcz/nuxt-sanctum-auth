@@ -1,19 +1,13 @@
 <script setup lang="ts">
-import { definePageMeta, useAuth, useNuxtApp, useRouter } from '#imports'
+import { definePageMeta, useAuth, useNuxtApp } from '#imports'
+definePageMeta({
+  middleware: ['auth']
+})
 
 const { $sanctumAuth } = useNuxtApp()
 const auth = useAuth()
-const router = useRouter()
-
-async function logout() {
-  const { error, response } = await $sanctumAuth.logout()
-  if (error) {
-    console.log(error._data)
-    return
-  }
-
-  console.log(response?._data)
-  // router.push('/auth/login')
+const logout = async () => {
+  await $sanctumAuth.logout()
 }
 </script>
 
@@ -22,14 +16,12 @@ async function logout() {
     class="flex flex-col p-4 rounded shadow space-y-4 bg-white min-w-[400px] max-w-xl"
   >
     <h1 class="text-xl font-bold">You are logged in</h1>
-    <p class="mb-2">Page accessable only for authenticated users</p>
-    <ClientOnly>
-      <code
-        class="block text-xs p-4 rounded bg-gray-100 border border-gray-200 mb-2"
-      >
-        <pre>{{ auth }}</pre>
-      </code>
-    </ClientOnly>
+    <p class="mb-2">Page accessible only for authenticated users</p>
+    <code
+      class="block text-xs p-4 rounded bg-gray-100 border border-gray-200 mb-2"
+    >
+      <pre>{{ auth }}</pre>
+    </code>
 
     <nuxt-link class="text-blue-500 underline" to="/">
       Go to index page

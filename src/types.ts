@@ -1,7 +1,8 @@
-import { FetchOptions, FetchRequest, FetchResponse } from 'ofetch'
+import { FetchOptions, FetchRequest } from 'ofetch'
 
 export interface Endpoints {
   csrf: string
+  register: string
   login: string
   logout: string
   user: string
@@ -19,8 +20,6 @@ export interface ModuleOptions {
   baseUrl: string
   endpoints: Endpoints
   redirects: Redirects
-  redirectByDefault: boolean
-  globalMiddleware: boolean
 }
 
 export interface Auth {
@@ -42,16 +41,13 @@ export type ApiFetch = <T>(
 
 export type Csrf = Promise<void>
 
-export type Response<ResponseT, ErrorT> = Promise<{
-  response?: FetchResponse<ResponseT>
-  error?: FetchResponse<ErrorT>
-}>
+export type Callback = (response: any) => void
 
 export interface SanctumAuthPlugin {
-  login<ResponseT, ErrorT>(data: any): Response<ResponseT, ErrorT>
-  loginRequest<ResponseT, ErrorT>(data: any): Response<ResponseT, ErrorT>
-  logout<ResponseT, ErrorT>(): Response<ResponseT, ErrorT>
-  getUser<ResponseT, ErrorT>(): Response<ResponseT, ErrorT>
+  register: (data: any, callback?: Callback | undefined) => Promise<void>
+  login: (data: any, callback?: Callback | undefined) => Promise<void>
+  logout: (callback?: Callback | undefined) => Promise<void>
+  getUser<T>(): Promise<T | undefined>
 }
 
 // @ts-ignore

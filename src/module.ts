@@ -9,10 +9,9 @@ import { ModuleOptions } from './types'
 const defaults: ModuleOptions = {
   token: false,
   baseUrl: 'http://localhost:8000',
-  globalMiddleware: false,
-  redirectByDefault: false,
   endpoints: {
     csrf: '/sanctum/csrf-cookie',
+    register: '/register',
     login: '/login',
     logout: '/logout',
     user: '/user'
