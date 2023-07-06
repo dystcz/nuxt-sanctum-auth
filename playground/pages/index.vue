@@ -16,23 +16,32 @@ onMounted(async () => {
     class="flex flex-col p-4 rounded shadow space-y-4 bg-white min-w-[400px] max-w-xl"
   >
     <h1 class="text-xl font-bold">normal page</h1>
-    <p>Page accessable for all users</p>
+    <p>Page accessible for all users</p>
 
     <div v-if="loading">
       <p class="mb-2">Loading...</p>
     </div>
     <template v-else>
       <div v-if="!auth.loggedIn">
-        <h2 class="font-bold">Login</h2>
-        <p class="mb-2">Section accessable only for guest users</p>
-        <nuxt-link class="text-blue-500 underline" to="/auth/login">
-          login
-        </nuxt-link>
+        <div class="mb-2">
+          <h2 class="font-bold">Login</h2>
+          <p class="mb-2">Section accessible only for guest users</p>
+          <nuxt-link class="text-blue-500 underline" to="/auth/login">
+            login
+          </nuxt-link>
+        </div>
+        <div>
+          <h2 class="font-bold">Register</h2>
+          <p class="mb-2">Section accessible only for guest users</p>
+          <nuxt-link class="text-blue-500 underline" to="/auth/register">
+            register
+          </nuxt-link>
+        </div>
       </div>
 
       <div v-else>
         <h2 class="font-bold">Account info</h2>
-        <p class="mb-2">Section accessable only for authenticated users</p>
+        <p class="mb-2">Section accessible only for authenticated users</p>
         <code
           class="block text-xs p-4 rounded bg-gray-100 border border-gray-200 mb-2"
         >

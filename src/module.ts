@@ -11,6 +11,7 @@ const defaults: ModuleOptions = {
   baseUrl: 'http://localhost:8000',
   endpoints: {
     csrf: '/sanctum/csrf-cookie',
+    register: '/register',
     login: '/login',
     logout: '/logout',
     user: '/user'

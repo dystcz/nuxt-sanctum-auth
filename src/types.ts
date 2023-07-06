@@ -2,6 +2,7 @@ import { FetchOptions, FetchRequest } from 'ofetch'
 
 export interface Endpoints {
   csrf: string
+  register: string
   login: string
   logout: string
   user: string
@@ -43,6 +44,7 @@ export type Csrf = Promise<void>
 export type Callback = (response: any) => void
 
 export interface SanctumAuthPlugin {
+  register: (data: any, callback?: Callback | undefined) => Promise<void>
   login: (data: any, callback?: Callback | undefined) => Promise<void>
   logout: (callback?: Callback | undefined) => Promise<void>
   getUser<T>(): Promise<T | undefined>

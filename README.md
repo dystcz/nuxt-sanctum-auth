@@ -66,9 +66,44 @@ export default defineNuxtConfig({
 
 ## Usage
 
+### Register
+
+Package provides you with `$sanctumAuth` plugin, which contains `register`, `login` and `logout` methods.
+
+When you register using the module, it automatically redirects you to the `home` route as defined in the configuration. However, you can also pass a callback function as the second parameter, which will receive the response data as an argument. This can be useful, for example, if you want to fetch additional user data before redirecting them to the application. Just keep in mind that you'll need to handle the redirection manually.
+
+```vue
+<script setup>
+const { $sanctumAuth } = useNuxtApp()
+const router = useRouter()
+const errors = ref([])
+
+async function register() {
+  try {
+    await $sanctumAuth.register(
+      {
+        name: 'Example',
+        email: 'email@example.com',
+        password: 'supersecretpassword',
+        password_confirmation: 'supersecretpassword',
+      },
+      // optional callback function
+      (data) => {
+        console.log(data)
+        router.push('/account')
+      }
+    )
+  } catch (e) {
+    // your error handling
+    errors.value = e.errors
+  }
+}
+</script>
+```
+
 ### Login
 
-Package provides you with `$sanctumAuth` plugin, which contains `login` and `logout` methods.
+Package provides you with `$sanctumAuth` plugin, which contains `register`, `login` and `logout` methods.
 
 When you log in using the module, it automatically redirects you to the `home` route as defined in the configuration. However, you can also pass a callback function as the second parameter, which will receive the response data as an argument. This can be useful, for example, if you want to fetch additional user data before redirecting them to the application. Just keep in mind that you'll need to handle the redirection manually.
 

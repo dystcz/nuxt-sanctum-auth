@@ -26,7 +26,7 @@ export default defineNuxtPlugin(async () => {
     }
     await getUser()
 
-    if (auth.value.loggedIn === false) {
+    if (!auth.value.loggedIn) {
       return config.redirects.login
     }
   })
@@ -98,6 +98,41 @@ export default defineNuxtPlugin(async () => {
     }
   }
 
+  async function register(
+    data: any,
+    callback?: Callback | undefined
+  ): Promise<void> {
+    if (!config.token) {
+      await csrf()
+    }
+
+    try {
+      const response = await apiFetch(config.endpoints.register, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          Accept: 'application/json',
+          [config.csrf.headerKey]: !config.token
+            ? useCookie(config.csrf.cookieKey).value
+            : null,
+          Authorization: config.token ? 'Bearer ' + auth.value.token : null
+        } as HeadersInit
+      })
+
+      if (config.token && response) {
+        setToken(response.token)
+      }
+
+      if (callback !== undefined) {
+        callback(response)
+        return
+      }
+      window.location.replace(config.redirects.home)
+    } catch (error: any) {
+      throw error.data
+    }
+  }
+
   async function login(
     data: any,
     callback?: Callback | undefined
@@ -159,6 +194,7 @@ export default defineNuxtPlugin(async () => {
       apiFetch,
       csrf,
       sanctumAuth: {
+        register,
         login,
         getUser,
         logout

@@ -16,7 +16,7 @@ const logout = async () => {
     class="flex flex-col p-4 rounded shadow space-y-4 bg-white min-w-[400px] max-w-xl"
   >
     <h1 class="text-xl font-bold">You are logged in</h1>
-    <p class="mb-2">Page accessable only for authenticated users</p>
+    <p class="mb-2">Page accessible only for authenticated users</p>
     <code
       class="block text-xs p-4 rounded bg-gray-100 border border-gray-200 mb-2"
     >
