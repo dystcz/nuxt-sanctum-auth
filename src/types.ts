@@ -53,25 +53,3 @@ export interface SanctumAuthPlugin {
   logout<ResponseT, ErrorT>(): Response<ResponseT, ErrorT>
   getUser<ResponseT, ErrorT>(): Response<ResponseT, ErrorT>
 }
-
-// @ts-ignore
-declare module 'vue/types/vue' {
-  interface Vue {
-    $sanctumAuth: SanctumAuthPlugin
-  }
-}
-
-// Nuxt Bridge & Nuxt 3
-declare module '#app' {
-  interface NuxtApp extends PluginInjection {}
-}
-
-interface PluginInjection {
-  $sanctumAuth: SanctumAuthPlugin
-  $apiFetch: ApiFetch
-  $csrf: Csrf
-}
-
-declare module '@vue/runtime-core' {
-  interface ComponentCustomProperties extends PluginInjection {}
-}

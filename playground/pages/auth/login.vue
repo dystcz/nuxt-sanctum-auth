@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
-import { definePageMeta, useNuxtApp, useRouter } from '#imports'
+import { definePageMeta, useAuth, useRouter } from '#imports'
 
 definePageMeta({
   middleware: ['guest'],
   auth: false
 })
 
-const { $sanctumAuth } = useNuxtApp()
+const { login } = useAuth()
 const router = useRouter()
 
 const form = reactive({
@@ -16,8 +16,8 @@ const form = reactive({
 })
 
 const errors = ref<any>(null)
-async function login() {
-  const { response, error } = await $sanctumAuth.login(form)
+async function signIn() {
+  const { response, error } = await login(form)
 
   if (error) {
     console.log(error._data)
@@ -26,13 +26,13 @@ async function login() {
   }
 
   console.log(response?._data)
-  // router.push('/account')
+  router.push('/account')
 }
 </script>
 
 <template>
   <form
-    @submit.prevent="login"
+    @submit.prevent="signIn"
     class="flex flex-col p-4 rounded shadow space-y-4 w-full bg-white max-w-[400px]"
   >
     <h1 class="text-2xl font-bold text-center">Login</h1>

@@ -7,8 +7,8 @@ import {
 import { ModuleOptions } from './types'
 
 const defaults: ModuleOptions = {
-  token: false,
   baseUrl: 'http://localhost:8000',
+  token: false,
   globalMiddleware: false,
   redirectByDefault: false,
   endpoints: {
@@ -43,7 +43,7 @@ export default defineNuxtModule<ModuleOptions>({
     addImports({
       name: 'useAuth',
       as: 'useAuth',
-      from: resolve('runtime/composables')
+      from: resolve('runtime/useAuth')
     })
   }
 })

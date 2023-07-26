@@ -1,20 +1,21 @@
 <script setup lang="ts">
-import { ref, onMounted, useNuxtApp, useAuth } from '#imports'
+import { ref, onMounted, useAuth } from '#imports'
 
-const { $sanctumAuth } = useNuxtApp()
 const loading = ref(true)
-const auth = useAuth()
+const { auth, logout } = useAuth()
 
 onMounted(() => {
   loading.value = false
 })
 
-async function logout() {
-  const { error, response } = await $sanctumAuth.logout()
+async function signOut() {
+  const { response, error } = await logout()
   if (error) {
     console.log(error._data)
     return
   }
+
+  console.log(response?._data)
 }
 </script>
 
@@ -51,8 +52,8 @@ async function logout() {
 
         <button
           type="button"
-          @click.prevent="logout"
-          class="w-full block rounded bg-blue-500 uppercase text-white py-2"
+          @click.prevent="signOut"
+          class="w-full block mt-2 rounded bg-blue-500 uppercase text-white py-2"
         >
           log out
         </button>

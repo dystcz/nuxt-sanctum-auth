@@ -1,19 +1,18 @@
 <script setup lang="ts">
 import { definePageMeta, useAuth, useNuxtApp, useRouter } from '#imports'
 
-const { $sanctumAuth } = useNuxtApp()
-const auth = useAuth()
+const { auth, logout } = useAuth()
 const router = useRouter()
 
-async function logout() {
-  const { error, response } = await $sanctumAuth.logout()
+async function signOut() {
+  const { response, error } = await logout()
   if (error) {
     console.log(error._data)
     return
   }
 
   console.log(response?._data)
-  // router.push('/auth/login')
+  router.push('/auth/login')
 }
 </script>
 
@@ -37,7 +36,7 @@ async function logout() {
 
     <button
       type="button"
-      @click.prevent="logout"
+      @click.prevent="signOut"
       class="w-full block rounded bg-blue-500 uppercase text-white py-2"
     >
       log out
