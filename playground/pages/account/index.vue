@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { definePageMeta, useAuth, useNuxtApp, useRouter } from '#imports'
+import { useAuth, useRouter } from '#imports'
 
 const { auth, logout } = useAuth()
 const router = useRouter()
