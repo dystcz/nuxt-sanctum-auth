@@ -67,7 +67,7 @@ export function useAuth() {
       } as HeadersInit
     })
 
-    return fetch(endpoint, options)
+    return fetch.raw(endpoint, options)
   }
 
   /**
