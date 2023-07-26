@@ -338,16 +338,16 @@ export function useAuth() {
   }
 
   return {
-    auth,
     apiFetch,
-    csrf,
-    login,
-    getUser,
-    logout,
-    getToken,
-    setToken,
-    clearToken,
+    auth,
     clearState,
+    clearToken,
+    csrf,
+    getToken,
+    getUser,
+    login,
+    logout,
+    setToken,
     setUser
   }
 }
