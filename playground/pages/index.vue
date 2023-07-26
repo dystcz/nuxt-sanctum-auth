@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref, onMounted, useAuth } from '#imports'
+import { ref, onMounted, useSanctumAuth } from '#imports'
 
 const loading = ref(true)
-const { auth, logout } = useAuth()
+const { auth, logout } = useSanctumAuth()
 
 onMounted(() => {
   loading.value = false

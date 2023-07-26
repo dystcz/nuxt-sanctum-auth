@@ -41,9 +41,9 @@ export default defineNuxtModule<ModuleOptions>({
     addPlugin(resolve('./runtime/plugin'))
 
     addImports({
-      name: 'useAuth',
-      as: 'useAuth',
-      from: resolve('runtime/useAuth')
+      name: 'useSanctumAuth',
+      as: 'useSanctumAuth',
+      from: resolve('runtime/useSanctumAuth')
     })
   }
 })

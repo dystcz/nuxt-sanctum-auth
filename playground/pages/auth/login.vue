@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
-import { definePageMeta, useAuth, useRouter } from '#imports'
+import { definePageMeta, useSanctumAuth, useRouter } from '#imports'
 
 definePageMeta({
   middleware: ['guest'],
   auth: false
 })
 
-const { login } = useAuth()
+const { login } = useSanctumAuth()
 const router = useRouter()
 
 const form = reactive({

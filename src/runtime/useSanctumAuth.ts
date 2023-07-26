@@ -3,7 +3,7 @@ import { ofetch } from 'ofetch'
 import type { Auth, Csrf, Response } from '../types'
 import type { FetchOptions, FetchRequest, FetchResponse } from 'ofetch'
 
-export function useAuth() {
+export function useSanctumAuth() {
   const config = useRuntimeConfig().public.nuxtSanctumAuth
   const auth = useState<Auth>('auth', () => {
     return {
@@ -21,6 +21,7 @@ export function useAuth() {
    * ```
    * @example
    * ```ts
+   * const { csrf } = useSanctumAuth()
    * await csrf()
    * ```
    * */
@@ -45,7 +46,7 @@ export function useAuth() {
    * @example
    * ```ts
    * // using in script setup
-   * const { apiFetch } = useAuth()
+   * const { apiFetch } = useSanctumAuth()
    * const { data, error } = await useAsyncData(
    *  'posts',
    *  () => apiFetch('posts', { method: 'GET' }),
@@ -77,7 +78,7 @@ export function useAuth() {
    * ```
    * @example
    * ```ts
-   * const { getToken } = useAuth()
+   * const { getToken } = useSanctumAuth()
    * const token = getToken()
    * ```
    * */
@@ -95,7 +96,7 @@ export function useAuth() {
    * ```
    * @example
    * ```ts
-   * const { setToken } = useAuth()
+   * const { setToken } = useSanctumAuth()
    * setToken('token')
    * ```
    * */
@@ -110,7 +111,7 @@ export function useAuth() {
    * ```
    * @example
    * ```ts
-   * const { clearToken } = useAuth()
+   * const { clearToken } = useSanctumAuth()
    * clearToken()
    * ```
    * */
@@ -125,7 +126,7 @@ export function useAuth() {
    * ```
    * @example
    * ```ts
-   * const { clearState } = useAuth()
+   * const { clearState } = useSanctumAuth()
    * clearState()
    * ```
    * */
@@ -144,7 +145,7 @@ export function useAuth() {
    * ```
    * @example
    * ```ts
-   * const { setUser } = useAuth()
+   * const { setUser } = useSanctumAuth()
    * setUser({ name: 'John Doe' })
    * ```
    * */
@@ -165,6 +166,7 @@ export function useAuth() {
    * ```
    * @example
    * ```ts
+   * const { getUser } = useSanctumAuth()
    * const { response, error } = await getUser<ResponseT, ErrorT>()
    * if (error) {
    *   // handle errors
@@ -202,6 +204,7 @@ export function useAuth() {
    * ```
    * @example
    * ```ts
+   * const { loginRequest } = useSanctumAuth()
    * const { response, error } = await loginRequest<ResponseT, ErrorT>({
    *   email: 'email@example.com',
    *   password: 'password'
@@ -263,6 +266,7 @@ export function useAuth() {
    * ```
    * @example
    * ```ts
+   * const { login } = useSanctumAuth()
    * const { response, error } = await login<ResponseT, ErrorT>({
    *   email: 'email@example.com',
    *   password: 'password'
@@ -308,6 +312,7 @@ export function useAuth() {
    * ```
    * @example
    * ```ts
+   * const { logout } = useSanctumAuth()
    * const { response, error } = await logout<ResponseT, ErrorT>()
    * if (error) {
    *   // handle errors

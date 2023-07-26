@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useAuth, useRouter } from '#imports'
+import { useSanctumAuth, useRouter } from '#imports'
 
-const { auth, logout } = useAuth()
+const { auth, logout } = useSanctumAuth()
 const router = useRouter()
 
 async function signOut() {

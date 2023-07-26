@@ -4,11 +4,11 @@ import {
   useRuntimeConfig
   // @ts-ignore
 } from '#app'
-import { useAuth } from './useAuth'
+import { useSanctumAuth } from './useSanctumAuth'
 
 export default defineNuxtPlugin(async () => {
   const config = useRuntimeConfig().public.nuxtSanctumAuth
-  const { getToken, getUser, auth } = useAuth()
+  const { getToken, getUser, auth } = useSanctumAuth()
 
   async function checkAuth(): Promise<boolean> {
     if (auth.value.loggedIn === true) return true
