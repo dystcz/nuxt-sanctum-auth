@@ -1,6 +1,6 @@
 # Nuxt Sanctum Auth
 
-## Disclaimer: This is outdated and does not reflect the current state of the code in this repository. For the latest information, please refer to the codebase.
+## Disclaimer: This README is outdated and does not reflect the current state of the code in this repository. For the latest information, please refer to the codebase.
 
 [![npm version](https://badge.fury.io/js/nuxt-sanctum-auth.svg)](https://badge.fury.io/js/nuxt-sanctum-auth)
 
