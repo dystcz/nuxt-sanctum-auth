@@ -217,7 +217,7 @@ const { data: posts } = await useAsyncData('posts', () => $apiFetch(`posts`))
 ### Getting user info in pages/components without middleware
 
 You absolutely can use user information on all pages, even on those that are not guarded by `auth` midleware.
-Only downside is that you have to handle potential empty states your self. Typically on ssr pages, because user info is accessable only on client.
+Only downside is that you have to handle potential empty states yourself. Typically on ssr pages, because user info is accessible only on client.
 
 ```vue
 <script setup>
