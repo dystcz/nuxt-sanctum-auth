@@ -5,7 +5,7 @@ import {
   useRuntimeConfig,
   useCookie
   // @ts-ignore
-} from '#app'
+} from '#imports'
 import { FetchOptions, FetchRequest, ofetch } from 'ofetch'
 import { ModuleOptions, Auth, Callback, Csrf } from '../types'
 
