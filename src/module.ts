@@ -7,8 +7,10 @@ import {
 import { ModuleOptions } from './types'
 
 const defaults: ModuleOptions = {
-  token: false,
   baseUrl: 'http://localhost:8000',
+  token: false,
+  globalMiddleware: false,
+  redirectByDefault: false,
   endpoints: {
     csrf: '/sanctum/csrf-cookie',
     login: '/login',
@@ -39,9 +41,9 @@ export default defineNuxtModule<ModuleOptions>({
     addPlugin(resolve('./runtime/plugin'))
 
     addImports({
-      name: 'useAuth',
-      as: 'useAuth',
-      from: resolve('runtime/composables')
+      name: 'useSanctumAuth',
+      as: 'useSanctumAuth',
+      from: resolve('runtime/useSanctumAuth')
     })
   }
 })

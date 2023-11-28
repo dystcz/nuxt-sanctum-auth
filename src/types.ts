@@ -1,4 +1,4 @@
-import { FetchOptions, FetchRequest } from 'ofetch'
+import { FetchOptions, FetchRequest, FetchResponse } from 'ofetch'
 
 export interface Endpoints {
   csrf: string
@@ -19,6 +19,8 @@ export interface ModuleOptions {
   baseUrl: string
   endpoints: Endpoints
   redirects: Redirects
+  redirectByDefault: boolean
+  globalMiddleware: boolean
 }
 
 export interface Auth {
@@ -40,32 +42,14 @@ export type ApiFetch = <T>(
 
 export type Csrf = Promise<void>
 
-export type Callback = (response: any) => void
+export type Response<ResponseT, ErrorT> = Promise<{
+  response?: FetchResponse<ResponseT>
+  error?: FetchResponse<ErrorT>
+}>
 
 export interface SanctumAuthPlugin {
-  login: (data: any, callback?: Callback | undefined) => Promise<void>
-  logout: (callback?: Callback | undefined) => Promise<void>
-  getUser<T>(): Promise<T | undefined>
-}
-
-// @ts-ignore
-declare module 'vue/types/vue' {
-  interface Vue {
-    $sanctumAuth: SanctumAuthPlugin
-  }
-}
-
-// Nuxt Bridge & Nuxt 3
-declare module '#app' {
-  interface NuxtApp extends PluginInjection {}
-}
-
-interface PluginInjection {
-  $sanctumAuth: SanctumAuthPlugin
-  $apiFetch: ApiFetch
-  $csrf: Csrf
-}
-
-declare module '@vue/runtime-core' {
-  interface ComponentCustomProperties extends PluginInjection {}
+  login<ResponseT, ErrorT>(data: any): Response<ResponseT, ErrorT>
+  loginRequest<ResponseT, ErrorT>(data: any): Response<ResponseT, ErrorT>
+  logout<ResponseT, ErrorT>(): Response<ResponseT, ErrorT>
+  getUser<ResponseT, ErrorT>(): Response<ResponseT, ErrorT>
 }
