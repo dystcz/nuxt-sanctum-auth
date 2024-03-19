@@ -81,8 +81,8 @@ export default defineNuxtPlugin(async () => {
     useCookie(config.csrf.tokenCookieKey).value = null
   }
 
-  async function getUser<T>(): Promise<T | undefined> {
-    if (auth.value.loggedIn && auth.value.user) {
+  async function getUser<T>({ refresh = false }: {refresh?: boolean; } = {}): Promise<T | undefined> {
+    if (!refresh && auth.value.loggedIn && auth.value.user) {
       return auth.value.user as T
     }
 
