@@ -45,7 +45,7 @@ export type Callback = (response: any) => void
 export interface SanctumAuthPlugin {
   login: (data: any, callback?: Callback | undefined) => Promise<void>
   logout: (callback?: Callback | undefined) => Promise<void>
-  getUser<T>({ refresh }: { refresh?: boolean }): () => Promise<T | undefined>
+  getUser<T>({ refresh }?: { refresh?: boolean }): () => Promise<T | undefined>
 }
 
 // @ts-ignore
