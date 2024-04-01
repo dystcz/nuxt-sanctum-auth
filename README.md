@@ -227,6 +227,8 @@ const auth = useAuth() // return auth state
 
 onMounted(async () => {
   await $sanctumAuth.getUser() // fetch and set user data
+  // await $sanctumAuth.getUser({ refresh: true }) // force fetch user data
+
   loading.value = false
 })
 </script>
