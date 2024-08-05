@@ -4,7 +4,7 @@ import {
   addPlugin,
   addImports
 } from '@nuxt/kit'
-import { ModuleOptions } from './types'
+import type { ModuleOptions } from './types'
 
 const defaults: ModuleOptions = {
   token: false,
