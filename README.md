@@ -1,5 +1,9 @@
 # Nuxt Sanctum Auth
 
+## Notice of Deprecation
+
+**This package is no longer being developed or maintained.** We recommend using the more up-to-date and actively maintained package [nuxt-auth-sanctum](https://github.com/manchenkoff/nuxt-auth-sanctum) instead. Thank you for your understanding.
+
 [![npm version](https://badge.fury.io/js/nuxt-sanctum-auth.svg)](https://badge.fury.io/js/nuxt-sanctum-auth)
 
 This is a simple package for integrating Laravel Sanctum auth with Nuxt3.
