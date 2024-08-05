@@ -1,6 +1,6 @@
 {
   "name": "nuxt-sanctum-auth",
-  "version": "0.4.7",
+  "version": "0.4.8",
   "license": "MIT",
   "type": "module",
   "exports": {
@@ -34,7 +34,7 @@
     "@types/node": "^18.11.18",
     "autoprefixer": "^10.4.13",
     "changelogen": "^0.4.1",
-    "nuxt": "^3.8.2",
+    "nuxt": "^3.12.4",
     "postcss": "^8.4.21",
     "prettier": "^2.7.1",
     "tailwindcss": "^3.2.6"
