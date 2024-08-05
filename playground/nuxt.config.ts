@@ -30,5 +30,7 @@ export default defineNuxtConfig({
       login: '/auth/login',
       logout: '/'
     }
-  }
+  },
+
+  compatibilityDate: '2024-08-05'
 })

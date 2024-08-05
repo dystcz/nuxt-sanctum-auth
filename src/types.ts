@@ -1,4 +1,4 @@
-import { FetchOptions, FetchRequest } from 'ofetch'
+import type { FetchOptions, FetchRequest } from 'ofetch'
 
 export interface Endpoints {
   csrf: string
