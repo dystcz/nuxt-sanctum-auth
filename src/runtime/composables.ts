@@ -1,4 +1,4 @@
-import { useState } from '#app'
+import { useState } from '#imports'
 import { Auth } from '../types'
 
 export function useAuth () {
